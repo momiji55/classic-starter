@@ -1,0 +1,565 @@
+/* =========================
+  Design tokens（スペーシング / カラー / その他）
+  ・上下方向の余白は必ず --space-* から選ぶ（docs/css-spacing.md 参照）
+  ・色は必ず --color-* から選ぶ（生の HEX を直書きしない）
+========================= */
+:root {
+  /* スペーシングスケール（8px ベース） */
+  --space-1: 0.25rem; /*  4px */
+  --space-2: 0.5rem;  /*  8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem;    /* 16px */
+  --space-6: 1.5rem;  /* 24px */
+  --space-8: 2rem;    /* 32px */
+  --space-10: 2.5rem; /* 40px */
+  --space-12: 3rem;   /* 48px */
+  --space-16: 4rem;   /* 64px */
+
+  /* カラー（テキスト） */
+  --color-text: #333;          /* 本文 */
+  --color-heading: #111827;    /* 見出し・強調テキスト */
+  --color-body-soft: #374151;  /* 引用・コードブロックの本文 */
+  --color-muted: #4b5563;      /* 補足テキスト */
+  --color-caption: #6b7280;    /* キャプション */
+  --color-link: #1a73e8;       /* リンク */
+
+  /* カラー（背景） */
+  --color-bg: #fff;            /* 標準背景・カード */
+  --color-bg-subtle: #f9fafb;  /* 薄い背景 */
+  --color-bg-muted: #f3f4f6;   /* やや濃い薄背景（コード・テーブル） */
+  --color-dark: #333;          /* 暗い背景（フッター・ボタン） */
+  --color-on-dark: #fff;       /* 暗背景の上に乗せるテキスト */
+
+  /* カラー（ボーダー） */
+  --color-border: #e5e7eb;        /* 標準ボーダー */
+  --color-border-strong: #ccc;    /* 強めのボーダー（入力・ヘッダー） */
+  --color-border-muted: #d1d5db;  /* 引用の縦ライン */
+
+  /* フォントサイズ（タイプスケール / rem 基準） */
+  --text-xs: 0.875rem;  /* 14px: キャプション・フッター */
+  --text-sm: 0.95rem;   /* ~15px: メタ・説明文 */
+  --text-base: 1rem;    /* 16px: 本文 */
+  --text-lg: 1.125rem;  /* 18px: リード文 */
+  --text-xl: 1.25rem;   /* 20px: 小見出し */
+  --text-2xl: 2rem;     /* 32px: 大見出し */
+  --text-3xl: 3rem;     /* 48px: 大見出し（広幅時） */
+
+  /* フォントサイズ（可変 / fluid） */
+  --text-fluid-md: clamp(1.125rem, 1.5vw, 1.375rem);  /* 記事カードタイトル */
+  --text-fluid-lg: clamp(1.375rem, 2.2vw, 1.875rem);  /* サイトタイトル */
+
+  /* エフェクト・レイアウト */
+  --shadow: 0 4px 14px rgb(0 0 0 / 4%);       /* カードの影 */
+  --ring: 0 0 0 3px rgb(26 115 232 / 18%);    /* フォーカスリング（--color-link 由来） */
+  --radius-sm: 0.25rem;                       /* 角丸 小（4px）: インラインコード・テーブル */
+  --radius: 0.5rem;                           /* 角丸 標準（8px）: 引用・入力欄 */
+  --radius-lg: 0.75rem;                       /* 角丸 大（12px）: カード */
+  --transition: 0.3s;                         /* 標準トランジション */
+  --container-max: 1320px;                    /* コンテンツ最大幅 */
+  --container-reading: 760px;                 /* 本文の可読行幅（single / page） */
+
+  /* ブレークポイント（参考値・docs/css-responsive.md 参照）
+     ※ メディアクエリの条件部では var() が使えないため値を直書きする。
+        実際の条件は @media screen and (width >= 768px) のように記述する。
+       sm: 480px  / md: 768px  / lg: 1024px */
+}
+
+/* =========================
+  Base
+========================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  text-size-adjust: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  margin: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Hiragino Kaku Gothic ProN',
+    'Hiragino Sans',
+    Meiryo,
+    sans-serif;
+  font-size: var(--text-base);
+  line-height: 1.6;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+/* 段落の縦リズム（下方向統一）。クラス指定の要素は各自の margin が優先される */
+p {
+  margin-bottom: var(--space-4);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+input {
+  font-size: inherit;
+  line-height: 1;
+  background: var(--color-bg);
+}
+
+a {
+  color: var(--color-link);
+}
+
+/* キーボード操作時の視認性 */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline-offset: 2px;
+}
+
+/* =========================
+  Layout
+========================= */
+.main {
+  flex: 1;
+  padding: var(--space-12) 0;
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* Responsive（ブレークポイント: docs/css-responsive.md 参照） */
+@media screen and (width >= 480px) {
+  .inner {
+    padding: 0 32px;
+  }
+}
+
+@media screen and (width >= 1024px) {
+  .inner {
+    padding: 0 48px;
+  }
+}
+
+
+/* =========================
+  Header
+========================= */
+.header {
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border-strong);
+}
+
+.header-ttl {
+  margin: 0;
+  font-size: var(--text-fluid-lg);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+}
+
+.header-ttl-link {
+  text-decoration: none;
+  color: var(--color-heading);
+}
+
+.header-ttl-link:hover,
+.header-ttl-link:focus {
+  text-decoration: underline;
+}
+
+/* 説明文がある時だけタイトル側に下余白を付ける（下方向統一のため上余白は使わない） */
+.header-ttl:has(+ .header-description) {
+  margin-bottom: var(--space-2);
+}
+
+.header-description {
+  margin: 0;
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+/* =========================
+  Archive header
+========================= */
+
+.archive-header {
+  margin-bottom: var(--space-8);
+  padding-bottom: var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.archive-title {
+  margin: 0;
+  font-size: var(--text-2xl);
+  line-height: 1.3;
+  overflow-wrap: break-word;
+  color: var(--color-heading);
+}
+
+/* 説明文がある時だけタイトル側に下余白を付ける（下方向統一のため上余白は使わない） */
+.archive-title:has(+ .archive-description) {
+  margin-bottom: var(--space-2);
+}
+
+.archive-search-term {
+  color: var(--color-heading);
+}
+
+.archive-description {
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+.archive-description > *:last-child {
+  margin-bottom: 0;
+}
+
+/* =========================
+  Posts list
+========================= */
+
+.posts {
+  display: grid;
+  gap: 20px;
+}
+
+.post-item {
+  padding: 20px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.post-item-header {
+  margin-bottom: var(--space-3);
+}
+
+.post-item-title {
+  margin: 0;
+  font-size: var(--text-fluid-md);
+  line-height: 1.4;
+  overflow-wrap: break-word;
+}
+
+.post-item-title a {
+  font-size: var(--text-fluid-md);
+  line-height: 1.4;
+  text-decoration: none;
+  color: var(--color-heading);
+}
+
+.post-item-title a:hover,
+.post-item-title a:focus {
+  text-decoration: underline;
+  color: var(--color-link);
+}
+
+.post-item-content > *:first-child {
+  margin-top: 0;
+}
+
+.post-item-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.post-item-content p,
+.post-item-content ul,
+.post-item-content ol,
+.post-item-content blockquote,
+.post-item-content pre,
+.post-item-content table {
+  margin: 0 0 var(--space-4);
+}
+
+.post-item-content h1,
+.post-item-content h2,
+.post-item-content h3,
+.post-item-content h4,
+.post-item-content h5,
+.post-item-content h6 {
+  margin: 0 0 var(--space-3);
+  line-height: 1.4;
+}
+
+.post-item-content ul,
+.post-item-content ol {
+  padding-left: 1.4em;
+}
+
+.post-item-content blockquote {
+  margin-left: 0;
+  padding: 0.75em 1em;
+  color: var(--color-body-soft);
+  background: var(--color-bg-subtle);
+  border-left: 4px solid var(--color-border-muted);
+}
+
+.post-item-content pre {
+  padding: 12px;
+  overflow-x: auto;
+  line-height: 1.5;
+  color: var(--color-body-soft);
+  background: var(--color-bg-subtle);
+  border-left: 4px solid var(--color-border-muted);
+  border-radius: var(--radius);
+}
+
+.post-item-content code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+.post-item-content :not(pre) > code {
+  padding: 0.15em 0.4em;
+  color: var(--color-heading);
+  background: var(--color-bg-muted);
+  border-radius: var(--radius-sm);
+}
+
+.post-item-content table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  color: var(--color-heading);
+  background: var(--color-bg-muted);
+  border-radius: var(--radius-sm);
+}
+
+.post-item-content th,
+.post-item-content td {
+  padding: 10px 12px;
+  text-align: left;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+
+.post-item-content th {
+  background: var(--color-bg-subtle);
+}
+
+/* 抜粋下の「続きを読む」リンク。直前要素の margin-bottom が上の余白を担う */
+.post-item-more {
+  margin: 0;
+  font-size: var(--text-sm);
+  font-weight: 600;
+}
+
+.post-item-more-link {
+  text-decoration: none;
+  color: var(--color-link);
+}
+
+.post-item-more-link:hover,
+.post-item-more-link:focus {
+  text-decoration: underline;
+}
+
+/* =========================
+  Pagination (wp_link_pages)
+========================= */
+
+/* 直前要素の margin-bottom が上の余白を担うため margin-top は持たない */
+.page-links {
+  padding-top: var(--space-3);
+  font-size: var(--text-sm);
+  border-top: 1px solid var(--color-border);
+}
+
+.page-links-title {
+  margin-right: 8px;
+  font-weight: 600;
+}
+
+/* =========================
+  No posts
+========================= */
+
+.no-posts {
+  padding: 24px;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+}
+
+.no-posts-title {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xl);
+  line-height: 1.4;
+}
+
+.no-posts-text {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+/* =========================
+  Footer
+========================= */
+.footer {
+  padding: 12px 0;
+  background: var(--color-dark);
+}
+
+.footer-copyright {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-on-dark);
+}
+
+/* =========================
+  WordPress utility classes (最低限)
+========================= */
+
+.aligncenter {
+  display: block;
+  margin-inline: auto;
+}
+
+.alignleft {
+  float: left;
+  margin: 0.25em 1em 0.75em 0;
+}
+
+.alignright {
+  float: right;
+  margin: 0.25em 0 0.75em 1em;
+}
+
+.wp-caption {
+  max-width: 100%;
+  margin-bottom: var(--space-4);
+}
+
+/* 画像とキャプションの間隔は画像側の下余白で作る（下方向統一） */
+.wp-caption img {
+  margin-bottom: var(--space-2);
+}
+
+.wp-caption-text {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-caption);
+}
+
+.gallery {
+  display: grid;
+  gap: 12px;
+}
+
+.screen-reader-text {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(50%);
+}
+
+.screen-reader-text:focus {
+  z-index: 100000;
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(50%);
+}
+
+/* =========================
+  Button（汎用ボタン）
+========================= */
+.button {
+  display: inline-block;
+  padding: var(--space-2) var(--space-6);
+  text-align: center;
+  text-decoration: none;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: color var(--transition), background var(--transition), border-color var(--transition);
+}
+
+.button:hover {
+  color: var(--color-on-dark);
+  background: var(--color-dark);
+  border-color: var(--color-dark);
+}
+
+/* =========================
+  Search Form
+========================= */
+.search-form {
+  display: flex;
+  align-items: stretch;
+}
+
+.search-form-input {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-strong);
+  border-right: none;
+  border-radius: var(--radius) 0 0 var(--radius);
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.search-form-input::placeholder {
+  color: var(--color-caption);
+}
+
+.search-form-input:focus {
+  border-color: var(--color-link);
+  outline: none;
+  box-shadow: var(--ring);
+}
+
+.search-form-submit {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  padding: var(--space-2);
+  color: var(--color-on-dark);
+  background: var(--color-dark);
+  border: 1px solid var(--color-border-strong);
+  border-left: none;
+  border-radius: 0 var(--radius) var(--radius) 0;
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+.search-form-submit:hover {
+  opacity: 0.8;
+}
+
+.search-form-submit:focus-visible {
+  outline: none;
+  box-shadow: var(--ring);
+}

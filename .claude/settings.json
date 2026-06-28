@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(/projects/wp-theme/wp/wp-config.php)",
+      "Bash(rm -rf*)",
+      "Bash(curl*)",
+      "Bash(wget*)"
+    ]
+  }
+}

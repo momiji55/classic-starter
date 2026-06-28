@@ -1,0 +1,15 @@
+{
+  "name": "classic-starter",
+  "private": true,
+  "scripts": {
+    "dev": "browser-sync start --config bs-config.js --host 0.0.0.0",
+    "lint:css": "stylelint \"**/*.css\"",
+    "lint:css:fix": "stylelint \"**/*.css\" --fix"
+  },
+  "devDependencies": {
+    "browser-sync": "^3.0.3",
+    "stylelint": "^17.6.0",
+    "stylelint-config-standard": "^40.0.0",
+    "stylelint-order": "^8.1.1"
+  }
+}

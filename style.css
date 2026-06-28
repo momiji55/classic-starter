@@ -1,0 +1,16 @@
+/*
+Theme Name: classic-starter
+Text Domain: classic-starter
+Version: 0.1.0
+Requires at least: 6.0
+Requires PHP: 8.0
+Description: 開発用のシンプルなWordPress自作テーマです。
+Author: Momiji
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+/*
+ * このファイルは「テーマ情報（ヘッダー）」が主目的です。
+ * 実際の見た目のスタイルは common.css に記述します。
+ */

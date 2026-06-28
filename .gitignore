@@ -1,0 +1,9 @@
+node_modules/
+.DS_Store
+Thumbs.db
+
+# local dev config
+bs-config.js
+
+# Claude Code（共有設定 settings.json は追跡、個人ローカル設定は除外）
+.claude/settings.local.json

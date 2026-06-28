@@ -1,0 +1,134 @@
+/* =========================
+  Comments（single / page で表示。comments.php 用）
+========================= */
+.comments {
+  max-width: var(--container-reading);
+  margin-bottom: var(--space-12);
+  margin-inline: auto;
+}
+
+.comments-title {
+  margin-bottom: var(--space-6);
+  font-size: var(--text-xl);
+  color: var(--color-heading);
+}
+
+/* コメント一覧 */
+.comments-list {
+  margin-bottom: var(--space-8);
+  list-style: none;
+}
+
+.comments-list .children {
+  margin-left: var(--space-6);
+  list-style: none;
+}
+
+.comments-list li {
+  margin-bottom: var(--space-6);
+}
+
+.comment-body {
+  padding: var(--space-4);
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+}
+
+.comment-author {
+  font-size: var(--text-sm);
+}
+
+.comment-author .fn {
+  font-style: normal;
+  color: var(--color-heading);
+}
+
+.comment-author .avatar {
+  margin-right: var(--space-2);
+  vertical-align: middle;
+  border-radius: 50%;
+}
+
+.comment-metadata {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--color-muted);
+}
+
+.comment-metadata a {
+  color: inherit;
+}
+
+.comment-content {
+  color: var(--color-text);
+}
+
+.comment-content > *:last-child {
+  margin-bottom: 0;
+}
+
+.reply {
+  margin-top: var(--space-2);
+  font-size: var(--text-xs);
+}
+
+/* ナビゲーション・締め切り表示 */
+.comments-closed {
+  margin-bottom: var(--space-8);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+/* コメントフォーム */
+.comment-form {
+  margin-bottom: var(--space-8);
+}
+
+.comment-form p {
+  margin-bottom: var(--space-4);
+}
+
+.comment-form label {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--text-sm);
+  color: var(--color-heading);
+}
+
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form input[type="url"],
+.comment-form textarea {
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius);
+}
+
+.comment-form textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.comment-form .form-submit {
+  margin-bottom: 0;
+}
+
+.comment-form input[type="submit"] {
+  padding: var(--space-2) var(--space-6);
+  font-size: var(--text-base);
+  color: var(--color-on-dark);
+  background: var(--color-dark);
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: opacity var(--transition);
+}
+
+.comment-form input[type="submit"]:hover {
+  opacity: 0.85;
+}
