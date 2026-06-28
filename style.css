@@ -1,0 +1,35 @@
+/*
+Theme Name: classic-starter
+Theme URI: https://webdesign-programming.com/classic-starter/
+Text Domain: classic-starter
+Version: 0.1.0
+Requires at least: 6.0
+Tested up to: 7.1
+Requires PHP: 8.0
+Description: A minimal classic theme meant to be extended. Colours, spacing and type live in CSS custom properties, and each page loads only the CSS it needs.
+Author: Momiji
+Author URI: https://webdesign-programming.com/
+Tags: blog, two-columns, right-sidebar, custom-menu, featured-images, sticky-post, threaded-comments, translation-ready, wide-blocks, editor-style, block-styles, block-patterns, full-width-template
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+/*
+classic-starter WordPress Theme, (C) 2026 Momiji
+classic-starter is distributed under the terms of the GNU GPL.
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+*/
+
+/*
+ * このファイルは「テーマ情報（ヘッダー）」が主目的です。
+ * 実際の見た目のスタイルは assets/css/ 配下に記述します。
+ */

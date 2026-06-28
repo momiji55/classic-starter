@@ -1,0 +1,394 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: classic-starter 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Last-Translator: Momiji\n"
+"Language-Team: Japanese\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-08-16 04:57+0000\n"
+"PO-Revision-Date: 2026-08-16 04:57+0000\n"
+"Language: ja\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+#. translators: %s: comment count
+#: comments.php:21
+#, php-format
+msgid "%s Comment"
+msgid_plural "%s Comments"
+msgstr[0] "%s件のコメント"
+
+#: comments.php:49
+msgid "Comments are closed."
+msgstr "コメントは受け付けていません。"
+
+#: comments.php:55
+msgid "Leave a Comment"
+msgstr "コメントを残す"
+
+#: single.php:39
+#: template-parts/content-page.php:24
+msgid "Page navigation"
+msgstr "ページ分割ナビゲーション"
+
+#: single.php:40
+#: template-parts/content-page.php:25
+msgid "Pages:"
+msgstr "ページ:"
+
+#: front-page.php:78
+#: index.php:92
+#: index.php:98
+msgid "No posts found"
+msgstr "投稿が見つかりませんでした"
+
+#: front-page.php:79
+#: index.php:93
+#: index.php:99
+msgid "There are no posts yet, or no posts match your criteria."
+msgstr "まだ投稿がないか、条件に一致する投稿がありません。"
+
+#: searchform.php:10
+msgid "Search by keyword"
+msgstr "キーワードで検索"
+
+#: searchform.php:10
+msgid "Search keywords"
+msgstr "検索キーワード"
+
+#: functions.php:431
+#: header.php:50
+#: searchform.php:12
+msgid "Search"
+msgstr "検索"
+
+#: single.php:53
+msgid "Tags:"
+msgstr "タグ:"
+
+#: single.php:60
+msgid "Post navigation"
+msgstr "記事ナビゲーション"
+
+#. Theme Name of the theme
+#: style.css
+msgid "classic-starter"
+msgstr ""
+
+#. Author of the theme
+#: style.css
+msgid "Momiji"
+msgstr "もみじ"
+
+#: functions.php:469
+msgid "Author"
+msgstr "投稿者"
+
+#. Description of the theme
+#: style.css
+msgid "A minimal classic theme meant to be extended. Colours, spacing and type live in CSS custom properties, and each page loads only the CSS it needs."
+msgstr "拡張して使う前提の、最小構成のクラシックテーマです。色・余白・文字サイズを CSS カスタムプロパティで管理し、各ページに必要な CSS だけを読み込みます。"
+
+#: functions.php:82
+#: header.php:65
+msgid "Primary Menu"
+msgstr "メインメニュー"
+
+#: header.php:58
+msgid "Menu"
+msgstr "メニュー"
+
+#. translators: %s: menu item title
+#: functions.php:579
+#, php-format
+msgid "%s submenu"
+msgstr "%s のサブメニュー"
+
+#: header.php:20
+msgid "Skip to content"
+msgstr "本文へスキップ"
+
+#: functions.php:606
+msgid "Line"
+msgstr "枠線"
+
+#: functions.php:621
+msgid "Call to action"
+msgstr "お問い合わせへの誘導"
+
+#: functions.php:629
+msgid "Get in touch"
+msgstr "お問い合わせ"
+
+#: functions.php:633
+msgid "Feel free to contact us with any questions. We will get back to you as soon as possible."
+msgstr "ご不明な点はお気軽にお問い合わせください。担当者より折り返しご連絡いたします。"
+
+#: functions.php:638
+msgid "Contact us"
+msgstr "お問い合わせはこちら"
+
+#: functions.php:625
+msgid "Contact"
+msgstr "Contact"
+
+#. Author URI of the theme
+#: style.css
+msgid "https://webdesign-programming.com/"
+msgstr ""
+
+#: template-parts/post-item.php:26
+msgid "Featured"
+msgstr "注目"
+
+#. Theme URI of the theme
+#: style.css
+msgid "https://webdesign-programming.com/classic-starter/"
+msgstr ""
+
+#: functions.php:98
+#: sidebar.php:15
+msgid "Sidebar"
+msgstr "サイドバー"
+
+#: functions.php:652
+msgid "Latest posts card"
+msgstr "最新記事のカード"
+
+#: functions.php:656
+msgid "Latest"
+msgstr "Latest"
+
+#: footer.php:13
+#: functions.php:83
+msgid "Footer Menu"
+msgstr "フッターメニュー"
+
+#: 404.php:19
+msgid "The page you are looking for could not be found. The URL may have changed, or the page may have been deleted."
+msgstr "お探しのページは見つかりませんでした。URLが変更されたか、ページが削除された可能性があります。"
+
+#. translators: %s: number of search results
+#: index.php:38
+#, php-format
+msgid "%s result"
+msgid_plural "%s results"
+msgstr[0] "%s件"
+
+#: index.php:85
+msgid "No results found"
+msgstr "該当する記事は見つかりませんでした"
+
+#: index.php:86
+msgid "Try searching again with different or fewer keywords."
+msgstr "別のキーワードや、少ないキーワードで検索し直してください。"
+
+#: header.php:93
+msgid "Close"
+msgstr "閉じる"
+
+#. translators: Post date format, 0-padded. See https://www.php.net/manual/datetime.format.php
+#: functions.php:362
+msgctxt "post date format"
+msgid "Y.m.d"
+msgstr "Y.m.d"
+
+#: template-parts/post-item.php:49
+msgid "Read more"
+msgstr "続きを読む"
+
+#: single.php:62
+msgid "Prev"
+msgstr "Prev"
+
+#: single.php:65
+msgid "Next"
+msgstr "Next"
+
+#: 404.php:17
+msgid "Page Not Found"
+msgstr "Page Not Found"
+
+#: 404.php:24
+msgid "Back to Home"
+msgstr "ホームへ戻る"
+
+#: index.php:19
+msgid "Search Results"
+msgstr "Search Results"
+
+#. translators: %s: search query. Quotation marks around the search query.
+#: index.php:26
+#, php-format
+msgctxt "search query"
+msgid "&ldquo;%s&rdquo;"
+msgstr "「%s」"
+
+#: functions.php:319
+msgctxt "archive label"
+msgid "Category"
+msgstr "Category"
+
+#: functions.php:323
+msgctxt "archive label"
+msgid "Tag"
+msgstr "Tag"
+
+#: functions.php:327
+msgctxt "archive label"
+msgid "Author"
+msgstr "Author"
+
+#: functions.php:330
+msgctxt "archive label"
+msgid "Archive"
+msgstr "Archive"
+
+#: comments.php:34
+msgid "Reply"
+msgstr "返信"
+
+#: comments.php:43
+msgid "Older Comments"
+msgstr "古いコメント"
+
+#: comments.php:44
+msgid "Newer Comments"
+msgstr "新しいコメント"
+
+#: front-page.php:69
+#: functions.php:666
+msgid "View all posts"
+msgstr "記事一覧を見る"
+
+#: front-page.php:51
+#: index.php:65
+msgid "Blog"
+msgstr "Blog"
+
+#: front-page.php:52
+msgid "Latest Posts"
+msgstr "新着記事"
+
+#: functions.php:109
+msgid "Front page bottom"
+msgstr "トップページ下部"
+
+#: functions.php:111
+msgid "Shown at the bottom of the front page. Place the \"Call to action\" pattern here and edit its text and link."
+msgstr "トップページの一番下に表示されます。パターン「Call to action」を置き、文言とリンク先を書き換えてください。"
+
+#: functions.php:199
+msgid "Home"
+msgstr "ホーム"
+
+#. translators: Breadcrumb year format. See https://www.php.net/manual/datetime.format.php
+#: functions.php:257
+msgctxt "breadcrumb year format"
+msgid "Y"
+msgstr "Y年"
+
+#. translators: Breadcrumb month format. See https://www.php.net/manual/datetime.format.php
+#: functions.php:261
+msgctxt "breadcrumb month format"
+msgid "F"
+msgstr "n月"
+
+#. translators: Breadcrumb day format. See https://www.php.net/manual/datetime.format.php
+#: functions.php:266
+msgctxt "breadcrumb day format"
+msgid "j"
+msgstr "j日"
+
+#. translators: %s: search query
+#: functions.php:278
+#, php-format
+msgid "Search results for &ldquo;%s&rdquo;"
+msgstr "「%s」の検索結果"
+
+#: functions.php:215
+msgctxt "breadcrumb"
+msgid "Page not found"
+msgstr "ページが見つかりません"
+
+#. translators: %s: page number
+#: functions.php:287
+#, php-format
+msgid "Page %s"
+msgstr "%sページ目"
+
+#: functions.php:295
+msgid "Breadcrumb"
+msgstr "パンくずリスト"
+
+#: footer.php:40
+msgid "Back to top"
+msgstr "ページの先頭へ戻る"
+
+#: functions.php:60
+msgid "Text"
+msgstr "本文"
+
+#: functions.php:61
+msgid "Muted"
+msgstr "補足"
+
+#: functions.php:62
+msgid "Background"
+msgstr "背景"
+
+#: functions.php:63
+msgid "Subtle"
+msgstr "薄い背景"
+
+#: functions.php:64
+msgid "Muted background"
+msgstr "やや濃い背景"
+
+#: functions.php:72
+msgid "Small"
+msgstr "小"
+
+#: functions.php:73
+msgid "Normal"
+msgstr "標準"
+
+#: functions.php:74
+msgid "Large"
+msgstr "大"
+
+#: functions.php:75
+msgid "Extra large"
+msgstr "特大"
+
+#: functions.php:76
+msgid "Huge"
+msgstr "最大"
+
+#. Template Name of the theme
+msgid "No Sidebar"
+msgstr "サイドバーなし"
+
+#: functions.php:276
+msgctxt "breadcrumb"
+msgid "Search results"
+msgstr "検索結果"
+
+#: functions.php:347
+msgid "(no title)"
+msgstr "（タイトルなし）"
+
+#: functions.php:156
+msgctxt "pagination"
+msgid "Prev"
+msgstr "前へ"
+
+#: functions.php:157
+msgctxt "pagination"
+msgid "Next"
+msgstr "次へ"
+
+#: functions.php:100
+msgid "Shown to the right of the content on the front page, posts, pages and archives. On small screens it moves below the content."
+msgstr "トップページ・投稿・固定ページ・一覧ページで本文の右に表示します。画面が狭い時は本文の下に回ります。"

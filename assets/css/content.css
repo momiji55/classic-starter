@@ -1,0 +1,237 @@
+/* =========================
+  本文（the_content の中身。フロントとエディターで共有）
+  .entry-content はフロントの本文、.wp-block-post-content はエディターの本文
+========================= */
+
+/* 日本語の長文向けに、本文だけ行間を広げる */
+:is(.entry-content, .wp-block-post-content) {
+  line-height: 1.8;
+}
+
+/* 本文直下のブロックにも段落と同じ下の余白を付ける */
+:is(.entry-content, .wp-block-post-content) > * {
+  margin-bottom: var(--space-6);
+}
+
+/* 幅広・全幅は前後を広めに空ける */
+:is(.entry-content, .wp-block-post-content) > :is(.alignwide, .alignfull),
+:is(.entry-content, .wp-block-post-content) > :has(+ .alignwide, + .alignfull) {
+  margin-bottom: var(--space-8);
+}
+
+:is(.entry-content, .wp-block-post-content) > *:first-child {
+  margin-top: 0;
+}
+
+:is(.entry-content, .wp-block-post-content) > *:last-child {
+  margin-bottom: 0;
+}
+
+:is(.entry-content, .wp-block-post-content) :is(p, ul, ol, blockquote, pre, table) {
+  margin: 0 0 var(--space-6);
+}
+
+:is(.entry-content, .wp-block-post-content) :is(h1, h2, h3, h4, h5, h6) {
+  margin: 0 0 var(--space-3);
+  line-height: 1.4;
+}
+
+/* 直下の見出しだけを対象にし、グループ等の中の見出しには当てない */
+:is(.entry-content, .wp-block-post-content) > h2 {
+  margin-bottom: var(--space-4);
+  padding-bottom: var(--space-2);
+  font-size: var(--text-xl);
+  border-bottom: 1px solid var(--color-border);
+}
+
+:is(.entry-content, .wp-block-post-content) > h3 {
+  font-size: var(--text-lg);
+}
+
+:is(.entry-content, .wp-block-post-content) > h4 {
+  font-size: var(--text-base);
+}
+
+/* 見出しの前は広めに空け、前の話題との切れ目を示す */
+:is(.entry-content, .wp-block-post-content) > :has(+ h2) {
+  margin-bottom: var(--gap-l);
+}
+
+:is(.entry-content, .wp-block-post-content) > :has(+ :is(h3, h4)) {
+  margin-bottom: var(--space-8);
+}
+
+/* 見出しが続く時は、見出しどうしを離しすぎない */
+:is(.entry-content, .wp-block-post-content) > h2:has(+ :is(h3, h4)) {
+  margin-bottom: var(--space-4);
+}
+
+:is(.entry-content, .wp-block-post-content) > :is(h3, h4):has(+ :is(h3, h4)) {
+  margin-bottom: var(--space-3);
+}
+
+:is(.entry-content, .wp-block-post-content) :is(ul, ol) {
+  padding-left: 1.4em;
+}
+
+/* 引用は背景を敷かず、左の線だけで示す */
+:is(.entry-content, .wp-block-post-content) blockquote {
+  margin-left: 0;
+  padding-left: var(--space-4);
+  color: var(--color-text-muted);
+  border-left: 1px solid var(--color-border);
+}
+
+/* 引用の左の線が文字より下に伸びないよう、最後の段落の余白を消す */
+:is(.entry-content, .wp-block-post-content) blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* 出典。斜体は日本語が崩れるのでやめ、一段小さくして本文と見分ける。本文との間は詰める */
+:is(.entry-content, .wp-block-post-content) blockquote cite {
+  display: block;
+  font-size: var(--text-xs);
+  font-style: normal;
+}
+
+:is(.entry-content, .wp-block-post-content) blockquote p:has(+ cite) {
+  margin-bottom: var(--space-2);
+}
+
+/* 引用のスタイル「プレーン」は線と字下げを出さない */
+:is(.entry-content, .wp-block-post-content) blockquote.is-style-plain {
+  padding-left: 0;
+  border-left: 0;
+}
+
+/* プルクオート。中の引用には通常の引用の線と字下げを付けず、上下の線と大きな文字で強調する
+   （背景色を付けるスタイル「単色」は面で区切るので線を引かない） */
+:is(.entry-content, .wp-block-post-content) .wp-block-pullquote {
+  padding: var(--gap-m) 0;
+}
+
+:is(.entry-content, .wp-block-post-content) .wp-block-pullquote:not(.is-style-solid-color) {
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+}
+
+:is(.entry-content, .wp-block-post-content) .wp-block-pullquote blockquote {
+  padding-left: 0;
+  font-size: var(--text-xl);
+  line-height: 1.6;
+  color: var(--color-text);
+  border-left: 0;
+}
+
+:is(.entry-content, .wp-block-post-content) .wp-block-pullquote cite {
+  color: var(--color-text-muted);
+}
+
+/* コードブロックは線で囲んだ箱にし、引用と見分ける */
+:is(.entry-content, .wp-block-post-content) pre {
+  padding: var(--space-3) var(--space-4);
+  overflow-x: auto;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+}
+
+:is(.entry-content, .wp-block-post-content) code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+:is(.entry-content, .wp-block-post-content) :not(pre) > code {
+  padding: 0.15em 0.4em;
+  color: var(--color-text);
+  background: var(--color-bg-muted);
+}
+
+:is(.entry-content, .wp-block-post-content) table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+:is(.entry-content, .wp-block-post-content) th,
+:is(.entry-content, .wp-block-post-content) td {
+  padding: var(--space-2) var(--space-3);
+  text-align: left;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+
+:is(.entry-content, .wp-block-post-content) th {
+  background: var(--color-bg-subtle);
+}
+
+/* 本文のリンク。色だけでなく下線でも見分けられるようにし、線は細くして文字から少し離す */
+:is(.entry-content, .wp-block-post-content) a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--transition-duration);
+}
+
+/* ホバー・フォーカスで下線を消し、押せることを示す */
+:is(.entry-content, .wp-block-post-content) a:focus-visible {
+  text-decoration-color: transparent;
+}
+
+@media (hover: hover) {
+  :is(.entry-content, .wp-block-post-content) a:hover {
+    text-decoration-color: transparent;
+  }
+}
+
+/* パスワード保護のフォーム。入力欄はコメント欄と同じ見た目にし、ラベル・入力欄・送信ボタンを縦に積む */
+:is(.entry-content, .wp-block-post-content) .post-password-form p:last-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+:is(.entry-content, .wp-block-post-content) .post-password-form label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  width: 100%;
+  max-width: 20rem;
+  font-size: var(--text-xs);
+}
+
+/* 見た目は common.css のフォームパーツ。幅だけ欄いっぱいに広げる */
+:is(.entry-content, .wp-block-post-content) .post-password-form input[type="password"] {
+  width: 100%;
+}
+
+/* ファイルのダウンロードボタン。WordPress 本体の丸い濃いグレーをやめ、.button と同じ線の枠にする（本文の中なので文字は一段小さく） */
+:is(.entry-content, .wp-block-post-content) .wp-block-file__button {
+  display: inline-block;
+  padding: var(--space-1) var(--space-4);
+  font-size: var(--text-xs);
+  line-height: 1.8;
+  letter-spacing: var(--letter-spacing-wide);
+  text-decoration: none;
+  color: var(--color-text);
+  background: transparent;
+  border: 1px solid currentcolor;
+  border-radius: 0;
+  transition: color var(--transition-duration), background-color var(--transition-duration), border-color var(--transition-duration);
+}
+
+:is(.entry-content, .wp-block-post-content) .wp-block-file__button:focus-visible {
+  color: var(--color-text-inverse);
+  background-color: var(--color-bg-inverse);
+  border-color: var(--color-bg-inverse);
+}
+
+@media (hover: hover) {
+  :is(.entry-content, .wp-block-post-content) .wp-block-file__button:hover {
+    color: var(--color-text-inverse);
+    background-color: var(--color-bg-inverse);
+    border-color: var(--color-bg-inverse);
+  }
+}

@@ -1,0 +1,11 @@
+# 配布用 zip（npm run zip = git archive）から除外するファイル。
+# 開発用のファイルと、Theme Check が指摘する隠しファイル・隠しフォルダを入れない
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/.claude export-ignore
+/CLAUDE.md export-ignore
+/README.md export-ignore
+/docs export-ignore
+/package.json export-ignore
+/package-lock.json export-ignore
+/stylelint.config.mjs export-ignore

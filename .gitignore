@@ -1,0 +1,12 @@
+node_modules/
+
+# 配布用 zip（npm run zip の出力先）
+dist/
+.DS_Store
+Thumbs.db
+
+# local dev config
+bs-config.js
+
+# Claude Code（共有設定 settings.json は追跡、個人ローカル設定は除外）
+.claude/settings.local.json

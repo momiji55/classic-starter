@@ -1,0 +1,37 @@
+/* =========================
+  ブロックエディター専用（add_editor_style で読み込む）
+  フロントの common.css の基本設定と本文の行幅だけを合わせる（本文の中身は content.css）
+========================= */
+body {
+  font-family: var(--font-base);
+  font-size: var(--text-base);
+  line-height: 1.6;
+  word-break: break-all;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+a {
+  color: var(--color-link);
+}
+
+/* エディターのブロックの幅と余白を、フロントの本文に合わせる */
+.wp-block {
+  max-width: var(--container-reading);
+  margin-top: 0;
+}
+
+.wp-block[data-align="wide"] {
+  max-width: calc(var(--container-max) - var(--gutter) * 2);
+}
+
+.wp-block[data-align="full"] {
+  max-width: none;
+}
+
+/* タイトル欄は、フロントの記事・固定ページのタイトル（single.css / page.css）と同じ大きさにする */
+.editor-post-title {
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  line-height: 1.3;
+}

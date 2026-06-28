@@ -1,0 +1,139 @@
+/* =========================
+  Design tokens
+  フロントの全ページとブロックエディターの両方で読み込む
+========================= */
+:root {
+  /* OS の配色設定に従う。フォーム部品とスクロールバーもブラウザ側で切り替わる */
+  color-scheme: light dark;
+
+  /* スペーシングスケール（8px ベース） */
+  --space-1: 0.25rem; /*  4px */
+  --space-2: 0.5rem;  /*  8px */
+  --space-3: 0.75rem; /* 12px */
+  --space-4: 1rem;    /* 16px */
+  --space-6: 1.5rem;  /* 24px */
+  --space-8: 2rem;    /* 32px */
+  --space-12: 3rem;   /* 48px */
+  --space-16: 4rem;   /* 64px */
+
+  /* 間（あいだ）の段階。画面幅で広げたい余白だけに使い、md 以上は一段広げる（末尾の @media）。
+     部品の内側と部品の中の余白は、上のスケール（--space-*）から直接選ぶ */
+  --gap-m: var(--space-6);  /* 要素の間（記事一覧の区切り、ウィジェットのカードどうし、フォームとボタン等） */
+  --gap-l: var(--space-12); /* まとまりの間（ヘッダー・パンくず・本文・サイドバー・フッターの間、本文の h2 の前） */
+
+  /* カラー（テキスト）。文字色は「本文」と「補足」の2段階だけにする */
+  --color-text: #222;                /* 本文・見出し・強調テキスト */
+  --color-text-inverse: #fff;        /* 暗背景の上に乗せるテキスト */
+  --color-text-muted: #707070;       /* 補足テキスト（メタ情報・キャプション・引用・説明文）。白地でコントラスト比 4.5:1 以上 */
+  --color-link: #1a73e8;             /* リンク */
+  --color-required: #d93025;         /* 必須マーク・エラー */
+
+  /* カラー（背景） */
+  --color-bg: #fff;            /* 標準背景・カード */
+  --color-bg-subtle: #f9fafb;  /* 薄い背景 */
+  --color-bg-muted: #f3f4f6;   /* やや濃い薄背景（コード・テーブル・コメントの本文の箱） */
+  --color-bg-inverse: #4a4a4a;      /* 暗い背景（ボタン・ホバーで反転した時）。白文字でコントラスト比 8.9:1 */
+  --color-overlay: rgb(0 0 0 / 40%); /* パネルを開いた時の背面の暗幕 */
+
+  /* カラー（ボーダー）。線は構造の薄い線（このトークン）と押せるものの濃い線（currentcolor）の2種類だけにする */
+  --color-border: #e5e7eb;        /* 構造の区切り線（ヘッダー・フッター・一覧・カード・引用の縦線。入力欄の枠は --color-border-input） */
+  --color-border-input: #8c8c8c;  /* 入力欄・select の枠。白地でコントラスト比 3:1 以上（WCAG 1.4.11） */
+
+  /* アイコン（CSS の背景に置く SVG）。data URI の中では var() が使えないので、色は --color-text と同じ値を直接書く */
+  --icon-chevron-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpolyline points='3,5.5 8,10.5 13,5.5' fill='none' stroke='%23222' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+
+  /* フォント（エディターの editor-style.css とも共有する） */
+  --font-base:
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    'Hiragino Kaku Gothic ProN',
+    'Hiragino Sans',
+    Meiryo,
+    sans-serif;
+
+  /* コード用の等幅フォント（本文・ウィジェットのコードブロックで共有する） */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* 字間。広げるのは小さなラベル的な文字だけ（ボタン・カテゴリ・タグ・ナビ・ラベル） */
+  --letter-spacing-wide: 0.1em;   /* ラベル全般 */
+  --letter-spacing-wider: 0.2em;  /* パターンの見出しの上の小さなラベル */
+
+  /* ホバー・フォーカスで伸びる下線の太さ */
+  --underline-thickness: 1px;
+
+  /* フォントサイズ（タイプスケール / rem 基準） */
+  --text-2xs: 0.75rem;  /* 12px: 英字のラベル・小さなリンク、数字だけの補足（日付）、アイコンボタンのラベル */
+  --text-xs: 0.875rem;  /* 14px: 本文より一段小さい UI の文字（メタ・キャプション・フッター・サイドバー・ナビ・フォームのラベル） */
+  --text-base: 1rem;    /* 16px: 本文 */
+  --text-lg: 1.125rem;  /* 18px: リード文 */
+  --text-xl: 1.25rem;   /* 20px: 小見出し */
+  --text-2xl: 1.5rem;   /* 24px: 中見出し（記事タイトルより一段下げたい見出し） */
+  --text-3xl: 1.75rem;  /* 28px: 大見出し（記事・固定ページのタイトル） */
+  --text-4xl: 2.5rem;   /* 40px: 表示用の大見出し（404 の数字等） */
+
+  /* エフェクト・レイアウト */
+  --transition-duration: 0.3s;                /* 標準のトランジションの時間 */
+  --container-max: 1320px;                    /* コンテンツ最大幅 */
+  --container-reading: 760px;                 /* 本文の可読行幅（single / page） */
+  --sidebar-width: 334px;                     /* サイドバーの幅（lg 以上）。カードの余白と枠を除いた中身が 300px（広告・バナーの定番幅）になる */
+  --gutter: 20px;                             /* 画面端の左右の余白。広い画面は Layout の @media で上書き */
+  --control-height: 2.75rem;                  /* 44px: 1行のフォームパーツ（入力欄・select）の高さ。タップ目標の推奨サイズ */
+
+  /* ブレークポイント（参考値。メディアクエリの条件では var() が使えないので直書きする）: sm 480px / md 768px / lg 1024px */
+}
+
+/* =========================
+  ダークモード（OS の設定に従う）
+  セレクタ側には手を入れず、--color-* の値だけを差し替える
+========================= */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* 純黒は沈みすぎるので、少し持ち上げた面にする */
+    --color-text: #e8e8e8;
+    --color-text-muted: #a3a3a3;    /* 暗背景でコントラスト比 4.5:1 以上 */
+    --color-link: #8ab4f8;
+    --color-required: #f28b82;
+    --color-bg: #1a1a1a;
+    --color-bg-subtle: #1e1e1e;
+    --color-bg-muted: #222;
+    --color-bg-inverse: #6c6c6c;        /* 背景と 3:1 以上、白文字と 4.5:1 以上を両立する明るさ */
+    --color-overlay: rgb(0 0 0 / 60%);  /* 暗い面の上でも暗幕と分かるよう濃くする */
+    --color-border: #3a3a3a;
+
+    /* --color-text-inverse と --color-border-input は差し替えない。
+       前者は暗幕の上の文字にも使うので明るいまま、後者は暗背景でも 3:1 を満たすため */
+
+    /* data URI の中では var() が使えないので、--color-text と同じ値を直接書く */
+    --icon-chevron-down: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 16 16'%3E%3Cpolyline points='3,5.5 8,10.5 13,5.5' fill='none' stroke='%23e8e8e8' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+}
+
+/* エディターのパレット・文字サイズの値をトークンにする（WordPress が :root に出す HEX より後に効くよう body で指定） */
+body {
+  --wp--preset--color--text: var(--color-text);
+  --wp--preset--color--text-muted: var(--color-text-muted);
+  --wp--preset--color--bg: var(--color-bg);
+  --wp--preset--color--bg-subtle: var(--color-bg-subtle);
+  --wp--preset--color--bg-muted: var(--color-bg-muted);
+  --wp--preset--font-size--xs: var(--text-xs);
+  --wp--preset--font-size--base: var(--text-base);
+  --wp--preset--font-size--lg: var(--text-lg);
+  --wp--preset--font-size--xl: var(--text-xl);
+  --wp--preset--font-size--2-xl: var(--text-2xl);
+}
+
+/* OS で動きを減らす設定の時は、すべての動きを止める */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-duration: 0s;
+  }
+}
+
+/* 余白の段階を md 以上で一段広げる */
+@media screen and (width >= 768px) {
+  :root {
+    --gap-m: var(--space-8);
+    --gap-l: var(--space-16);
+  }
+}

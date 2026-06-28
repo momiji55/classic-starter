@@ -1,0 +1,49 @@
+/* =========================
+  404 Not Found
+========================= */
+
+/* 中身が少ないので、本文の領域の縦中央に置く */
+.error404 .main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.error-404 {
+  text-align: center;
+}
+
+.error-404-title {
+  margin-bottom: var(--space-6);
+  line-height: 1;
+}
+
+/* 要素が少ないページなので、数字は表示用の大きさにする */
+.error-404-code {
+  display: block;
+  margin-bottom: var(--space-3);
+  font-size: var(--text-4xl);
+  font-weight: 700;
+}
+
+/* 文字の見た目は common.css の Label セクション */
+.error-404-label {
+  display: block;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* 「何が起きたか」と「次にどうするか」の間を大きく空ける。行は検索フォームと同じ幅に絞り、長い1行にしない */
+.error-404-text {
+  max-width: 35rem;
+  margin: 0 auto var(--gap-l);
+  color: var(--color-text-muted);
+}
+
+/* 検索フォームは入力しやすい幅に絞って中央に置く */
+.error-404-search {
+  max-width: 35rem;
+  margin: 0 auto var(--space-6);
+  text-align: left;
+}

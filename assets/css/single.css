@@ -1,0 +1,205 @@
+/* =========================
+  単一記事ページ（single.php / .post-entry-*）
+========================= */
+
+.post-entry {
+  max-width: var(--container-reading);
+  margin-inline: auto;
+}
+
+.post-entry:has(+ .comments) {
+  margin-bottom: var(--gap-l);
+}
+
+.post-entry-header {
+  margin-bottom: var(--gap-m);
+}
+
+/* 一覧の .post-item-meta と同じ見た目 */
+.post-entry-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  margin-bottom: var(--space-3);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.post-entry-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.post-entry-date + .post-entry-categories {
+  padding-left: var(--space-3);
+  border-left: 1px solid var(--color-border);
+}
+
+.post-entry-title {
+  font-size: var(--text-3xl);
+  line-height: 1.3;
+}
+
+/* アイキャッチが無い時は、ヘッダーの margin-bottom が本文との間を担う */
+.post-entry-title:has(+ .post-entry-thumbnail) {
+  margin-bottom: var(--space-4);
+}
+
+.post-entry-thumbnail img {
+  width: 100%;
+}
+
+/* 付属情報（タグ・前後の記事）の前は大きく空け、本文の終わりを示す */
+.post-entry-content {
+  margin-bottom: var(--gap-l);
+}
+
+.post-entry-footer {
+  margin-bottom: var(--gap-m);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.post-entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+.post-entry-tax-label {
+  font-size: var(--text-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-muted);
+}
+
+/* 前後の記事。どちらも無い時は線ごと出さない。sm 未満は列が細くタイトルが何行にも折れるので縦に積む */
+.post-entry-nav {
+  display: grid;
+  gap: var(--gap-m);
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+.post-entry-nav:not(:has(a)) {
+  display: none;
+}
+
+/* 縦に積む時は、無い側の空の枠で余白が空かないよう隠す */
+.post-entry-nav > :not(:has(a)) {
+  display: none;
+}
+
+@media screen and (width >= 480px) {
+  .post-entry-nav {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* 片側だけの時も、Next を右の列に置くため空の枠を残す */
+  .post-entry-nav > :not(:has(a)) {
+    display: block;
+  }
+
+  /* 押せる範囲は Prev・Next とも中身の幅にそろえる。Next はまとまりを右端に寄せ、
+     折り返したタイトルは行頭がそろうよう左寄せにする（ラベルは向きを示すため右寄せ） */
+  .post-entry-nav-prev a,
+  .post-entry-nav-next a {
+    width: fit-content;
+  }
+
+  .post-entry-nav-next a {
+    margin-left: auto;
+  }
+
+  .post-entry-nav-next .post-entry-nav-label {
+    text-align: right;
+  }
+}
+
+.post-entry-nav-label {
+  display: block;
+  margin-bottom: var(--space-1);
+  color: var(--color-text-muted);
+}
+
+.post-entry-nav-title {
+  font-size: var(--text-xs);
+  line-height: 1.5;
+}
+
+/* no-descending-specificity を避けるため、通常 → フォーカス → ホバーの順にまとめる */
+
+/* 折り返したタイトルでも線が続くよう、下線は背景で描く */
+.post-entry-categories a,
+.post-entry-nav-title {
+  background: linear-gradient(currentcolor, currentcolor) 0 100% / 0 var(--underline-thickness) no-repeat;
+  transition: color var(--transition-duration), background-size var(--transition-duration);
+}
+
+.post-entry-categories a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.post-entry-tags a {
+  display: inline-block;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  letter-spacing: var(--letter-spacing-wide);
+  text-decoration: none;
+  color: var(--color-text);
+  border: 1px solid currentcolor;
+  transition: color var(--transition-duration), background-color var(--transition-duration);
+}
+
+/* タグは頭に # を付けて、ほかのラベルと見分ける */
+.post-entry-tags a::before {
+  content: "#";
+}
+
+.post-entry-nav-prev a,
+.post-entry-nav-next a {
+  display: block;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.post-entry-categories a:focus-visible {
+  color: var(--color-text);
+  background-size: 100% var(--underline-thickness);
+}
+
+.post-entry-tags a:focus-visible {
+  color: var(--color-text-inverse);
+  background-color: var(--color-bg-inverse);
+  border-color: var(--color-bg-inverse);
+}
+
+.post-entry-nav-prev a:focus-visible .post-entry-nav-title,
+.post-entry-nav-next a:focus-visible .post-entry-nav-title {
+  background-size: 100% var(--underline-thickness);
+}
+
+@media (hover: hover) {
+  .post-entry-categories a:hover {
+    color: var(--color-text);
+    background-size: 100% var(--underline-thickness);
+  }
+
+  .post-entry-tags a:hover {
+    color: var(--color-text-inverse);
+    background-color: var(--color-bg-inverse);
+    border-color: var(--color-bg-inverse);
+  }
+
+  .post-entry-nav-prev a:hover .post-entry-nav-title,
+  .post-entry-nav-next a:hover .post-entry-nav-title {
+    background-size: 100% var(--underline-thickness);
+  }
+}

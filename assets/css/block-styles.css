@@ -1,0 +1,93 @@
+/* =========================
+  ブロックスタイル・パターン
+  エディターでも読み込む（tokens.css に依存させているのでトークンが使える）
+========================= */
+
+/* ボタンブロック。WordPress 本体（classic-themes.css）の丸い濃いグレーのボタンをやめ、.button と同じ大きさ・字間・直角にする */
+.wp-block-button .wp-block-button__link {
+  padding: var(--space-2) var(--space-6);
+  font-size: var(--text-base);
+  line-height: 1.8;
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-inverse);
+  background-color: var(--color-bg-inverse);
+  border: 1px solid var(--color-bg-inverse);
+  border-radius: 0;
+  transition: color var(--transition-duration), background-color var(--transition-duration), border-color var(--transition-duration);
+}
+
+.wp-block-button .wp-block-button__link:focus-visible {
+  color: var(--color-text);
+  background-color: transparent;
+  border-color: var(--color-text);
+}
+
+/* Line（テーマ）と、コアのアウトラインは、カテゴリ・タグと同じ線の枠にする */
+.wp-block-button:is(.is-style-line, .is-style-outline) .wp-block-button__link {
+  color: var(--color-text);
+  background-color: transparent;
+  border: 1px solid currentcolor;
+}
+
+.wp-block-button:is(.is-style-line, .is-style-outline) .wp-block-button__link:focus-visible {
+  color: var(--color-text-inverse);
+  background-color: var(--color-bg-inverse);
+  border-color: var(--color-bg-inverse);
+}
+
+@media (hover: hover) {
+  .wp-block-button .wp-block-button__link:hover {
+    color: var(--color-text);
+    background-color: transparent;
+    border-color: var(--color-text);
+  }
+
+  .wp-block-button:is(.is-style-line, .is-style-outline) .wp-block-button__link:hover {
+    color: var(--color-text-inverse);
+    background-color: var(--color-bg-inverse);
+    border-color: var(--color-bg-inverse);
+  }
+}
+
+/* =========================
+  パターン「Call to action」
+  本文の見出し・段落の余白より優先させるため .cta から辿る
+========================= */
+
+.cta {
+  margin-bottom: var(--gap-l);
+  padding: var(--space-8) var(--space-6);
+  text-align: center;
+  border: 1px solid var(--color-border);
+}
+
+.cta .cta-label {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-xs);
+  letter-spacing: var(--letter-spacing-wider);
+  color: var(--color-text-muted);
+}
+
+/* 記事タイトルと張り合わないよう一段下げる */
+.cta .cta-title {
+  margin: 0 0 var(--space-4);
+  font-size: var(--text-2xl);
+  line-height: 1.4;
+}
+
+.cta .cta-text {
+  margin: 0 0 var(--space-6);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.cta .wp-block-buttons {
+  justify-content: center;
+  margin: 0;
+}
+
+@media screen and (width >= 768px) {
+  .cta {
+    padding: var(--space-12) var(--space-8);
+  }
+}

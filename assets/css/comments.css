@@ -1,0 +1,339 @@
+/* =========================
+  Comments（comments.php）
+  コメント一覧はアバター＋背景を敷いた本文の箱
+========================= */
+
+/* コメント欄のローカルトークン */
+:root {
+  --comment-avatar: 2rem;
+  --comment-lane: calc(var(--comment-avatar) + var(--space-3));
+}
+
+.comments {
+  max-width: var(--container-reading);
+  margin-inline: auto;
+  padding-top: var(--gap-l);
+  border-top: 1px solid var(--color-border);
+}
+
+.comments > *:last-child {
+  margin-bottom: 0;
+}
+
+/* アンカーで飛んだ時に上端へ張り付かせない */
+.comments,
+.comment-respond,
+.comments-list li {
+  scroll-margin-top: var(--space-8);
+}
+
+.comments-title,
+.comment-reply-title {
+  font-size: var(--text-xl);
+}
+
+.comments-title {
+  margin-bottom: var(--space-6);
+}
+
+.comments-list {
+  margin-bottom: var(--space-8);
+  padding-left: 0;
+  list-style: none;
+}
+
+/* 返信は字下げして、どのコメントへの返信か分かるようにする（SP は狭いので浅く、md 以上はアバター列の幅） */
+.comments-list .children {
+  margin-left: var(--space-6);
+  padding-left: 0;
+  list-style: none;
+}
+
+/* 字下げは2階層目まで */
+.comments-list .children .children {
+  margin-left: 0;
+}
+
+/* モバイルはアバター・名前を本文の箱の上に積む */
+.comment-body {
+  position: relative;
+  margin-bottom: var(--space-4);
+}
+
+.comment-body > *:last-child {
+  margin-bottom: 0;
+}
+
+/* アバターは絶対配置なので、メタ行をアバター列ぶん字下げする */
+.comment-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 var(--space-2);
+  min-height: var(--comment-avatar);
+  margin-bottom: var(--space-2);
+  padding-left: var(--comment-lane);
+}
+
+.comment-author {
+  font-size: var(--text-xs);
+}
+
+.comment-author .fn {
+  font-weight: 600;
+}
+
+.comment-author .says {
+  display: none;
+}
+
+/* 角丸を使わない規約の例外。人物を示す形として円にする */
+.comment-author .avatar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--comment-avatar);
+  height: var(--comment-avatar);
+  border-radius: 50%;
+}
+
+.comment-metadata {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.comment-metadata a {
+  color: inherit;
+}
+
+/* 承認待ちのメッセージ。em の斜体は日本語が崩れるのでやめ、名前・日時の下の行に単独で出す */
+.comment-awaiting-moderation {
+  flex-basis: 100%;
+  font-size: var(--text-xs);
+  font-style: normal;
+  color: var(--color-text-muted);
+}
+
+/* 記事投稿者バッジ（functions.php で出力）。
+   枠と余白を含めた高さが名前の文字の行に収まるようにして、バッジの有無で行の高さと下の余白を変えない */
+.bypostauthor .comment-author-badge {
+  display: inline-block;
+  margin-left: var(--space-2);
+  padding: 0 var(--space-2);
+  font-size: var(--text-2xs);
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text);
+  border: 1px solid currentcolor;
+}
+
+/* コメント本文の箱。しっぽが無いので文字幅に縮めず、コメント欄の幅いっぱいに広げる */
+.comment-content {
+  margin-bottom: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  background: var(--color-bg-muted);
+}
+
+.comment-content > *:last-child {
+  margin-bottom: 0;
+}
+
+/* 返信のリンク。見た目は一覧の「Read more」と同じ */
+.reply {
+  font-size: var(--text-2xs);
+}
+
+.reply .comment-reply-link {
+  display: inline-block;
+  padding-bottom: var(--space-1);
+  text-decoration: none;
+  color: var(--color-text);
+  background: linear-gradient(currentcolor, currentcolor) left 0 bottom 0 / 0 var(--underline-thickness) no-repeat;
+  transition: background-size var(--transition-duration);
+}
+
+.reply .comment-reply-link:focus-visible {
+  background-size: 100% var(--underline-thickness);
+}
+
+@media (hover: hover) {
+  .reply .comment-reply-link:hover {
+    background-size: 100% var(--underline-thickness);
+  }
+}
+
+.comments-closed {
+  margin-bottom: var(--space-8);
+  font-size: var(--text-xs);
+}
+
+/* 同じ背景のフッターと見分けられるよう、線で囲む */
+.comment-respond {
+  margin-bottom: var(--space-8);
+  padding: var(--space-4);
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+}
+
+.comment-reply-title {
+  margin-bottom: var(--space-4);
+}
+
+/* 返信モード時だけ現れる「キャンセル」リンク */
+.comment-reply-title small {
+  margin-left: var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: 400;
+}
+
+.comment-reply-title small a {
+  color: var(--color-text-muted);
+}
+
+.comment-form p {
+  margin-bottom: var(--space-4);
+}
+
+.comment-form .form-submit {
+  margin-bottom: 0;
+}
+
+.comment-form .required {
+  color: var(--color-required);
+}
+
+.comment-form .comment-notes,
+.comment-form .logged-in-as {
+  font-size: var(--text-xs);
+}
+
+.comment-form label {
+  display: block;
+  margin-bottom: var(--space-1);
+  font-size: var(--text-xs);
+}
+
+.comment-form .comment-form-cookies-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.comment-form .comment-form-cookies-consent label {
+  margin-bottom: 0;
+}
+
+/* タップ領域が小さいので大きくし、ラベル1行目の中央に揃える */
+.comment-form .comment-form-cookies-consent input {
+  flex-shrink: 0;
+  width: 1.15rem;
+  height: 1.15rem;
+  transform: translateY(0.2rem);
+}
+
+/* 見た目は common.css のフォームパーツ。幅だけ欄いっぱいに広げる */
+.comment-form input[type="text"],
+.comment-form input[type="email"],
+.comment-form textarea {
+  width: 100%;
+}
+
+.comment-form textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+/* 見た目は common.css のボタン。モバイルは全幅にする */
+.comment-form input[type="submit"] {
+  width: 100%;
+}
+
+/* コメントのページ送り。見た目と押せる範囲は記事一覧の「Prev」「Next」と同じ（左右は広げず一覧と端をそろえる）。
+   no-descending-specificity のため、ほかの a の指定より後に置く */
+.comment-navigation .nav-links a {
+  display: inline-block;
+  padding-block: var(--space-2);
+  line-height: 1.5;
+  background: linear-gradient(currentcolor, currentcolor) 0 100% / 0 var(--underline-thickness) no-repeat content-box;
+  transition: background-size var(--transition-duration);
+}
+
+.comment-navigation .nav-links a:focus-visible {
+  background-size: 100% var(--underline-thickness);
+}
+
+@media (hover: hover) {
+  .comment-navigation .nav-links a:hover {
+    background-size: 100% var(--underline-thickness);
+  }
+}
+
+/* =========================
+  Responsive
+========================= */
+@media screen and (width >= 768px) {
+  /* md 以上はアバターを左の列に出す */
+  :root {
+    --comment-avatar: 3rem;
+  }
+
+  .comments-list .children {
+    margin-left: var(--comment-lane);
+  }
+
+  .comment-body {
+    padding-left: var(--comment-lane);
+  }
+
+  /* 字下げは .comment-body が持つので解除する */
+  .comment-meta {
+    align-items: baseline;
+    min-height: 0;
+    margin-bottom: var(--space-1);
+    padding-left: 0;
+  }
+
+  .comment-respond {
+    padding: var(--space-6);
+  }
+
+  /* 名前・メールだけ2カラム。他の項目は全幅に戻す */
+  .comment-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: var(--space-4);
+  }
+
+  .comment-form > * {
+    grid-column: 1 / -1;
+  }
+
+  .comment-form-author,
+  .comment-form-email {
+    grid-column: auto;
+  }
+
+  /* 送信ボタンは文字の幅で中央に置く */
+  .comment-form .form-submit {
+    text-align: center;
+  }
+
+  .comment-form input[type="submit"] {
+    width: auto;
+  }
+}
+
+/* =========================
+  アバターが無い時（ピンバック・トラックバックと、アバターを表示しない設定）
+========================= */
+
+/* アバター用の字下げを出さない */
+.comment-body:not(:has(.avatar)) {
+  padding-left: 0;
+}
+
+.comment-body:not(:has(.avatar)) .comment-meta {
+  min-height: 0;
+  padding-left: 0;
+}

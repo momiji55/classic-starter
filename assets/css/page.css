@@ -1,0 +1,30 @@
+/* =========================
+  固定ページ（page.php / .page-entry-*）
+========================= */
+
+.page-entry {
+  max-width: var(--container-reading);
+  margin-inline: auto;
+}
+
+.page-entry:has(+ .comments) {
+  margin-bottom: var(--gap-l);
+}
+
+.page-entry-header {
+  margin-bottom: var(--gap-m);
+}
+
+.page-entry-title {
+  font-size: var(--text-3xl);
+  line-height: 1.3;
+}
+
+/* アイキャッチが無い時は、ヘッダーの margin-bottom が本文との間を担う */
+.page-entry-title:has(+ .page-entry-thumbnail) {
+  margin-bottom: var(--space-4);
+}
+
+.page-entry-thumbnail img {
+  width: 100%;
+}

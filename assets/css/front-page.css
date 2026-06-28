@@ -1,0 +1,48 @@
+/* =========================
+  トップページ（front-page.php / .front-*）
+========================= */
+
+.front-content,
+.front-section {
+  margin-bottom: var(--gap-l);
+}
+
+/* ページの本文は読みやすい行幅で中央に置く（サイドバーがある時は common.css が左端に寄せる） */
+.front-content {
+  max-width: var(--container-reading);
+  margin-inline: auto;
+}
+
+.front-content:last-child,
+.front-section:last-child {
+  margin-bottom: 0;
+}
+
+/* 見出しと記事一覧の間は、アーカイブ・検索結果の見出しと同じにする */
+.front-section-title {
+  margin-bottom: var(--gap-m);
+}
+
+/* 最新の記事の下の「View all posts」（見た目は .post-item-more-link） */
+.front-posts .posts:has(+ .front-posts-more) {
+  margin-bottom: var(--gap-m);
+}
+
+.front-posts-more {
+  margin: 0;
+}
+
+/* お問い合わせのパターンの下の余白は .front-section に任せる */
+.front-widgets .cta {
+  margin-bottom: 0;
+}
+
+/* =========================
+  Responsive
+========================= */
+@media screen and (width >= 1024px) {
+  /* サイドバーが無い時は本文が横幅いっぱいに広がるので、画像はサイドバーがある時の一覧と同じ幅にする */
+  .layout:not(:has(> .sidebar)) .front-posts .post-item {
+    grid-template-columns: calc((100% - var(--sidebar-width) - var(--gap-l) - var(--gap-m)) / 3) minmax(0, 1fr);
+  }
+}

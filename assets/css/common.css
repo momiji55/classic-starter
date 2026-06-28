@@ -1,0 +1,2014 @@
+/* =========================
+  全ページ共通のスタイル
+========================= */
+
+/* =========================
+  Base
+========================= */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  text-size-adjust: 100%;
+
+  /* パネルを開いて背面のスクロールを止めた時に、スクロールバーの幅だけページが横にずれないようにする */
+  scrollbar-gutter: stable;
+}
+
+/* ページ内リンクのスクロールは、OS で動きを減らす設定の時は滑らかにしない */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100svh;
+  font-family: var(--font-base);
+  font-size: var(--text-base);
+  line-height: 1.6;
+
+  /* 長い URL や英数字がはみ出さないよう、英単語も行の端で折り返す（日本語の折り返しは変わらない） */
+  word-break: break-all;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+/* クラス指定の要素は各自の margin が優先される */
+p {
+  margin-bottom: var(--space-4);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* input は周りのフォントを受け継がないのでそろえる（大きさ・枠・余白はフォームパーツと .button で決める） */
+input {
+  font-family: inherit;
+}
+
+a {
+  color: var(--color-link);
+}
+
+/* フォーカスの印は、押せるものの濃い線（文字色）にそろえる（ブラウザ標準の色に任せない）。
+   :where() で詳細度を 0 にし、部品ごとの指定で上書きしやすくする */
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 2px solid var(--color-text);
+  outline-offset: 2px;
+}
+
+/* =========================
+  Layout
+========================= */
+.main {
+  /* 幅広・全幅の基準。cqi はスクロールバーを含まないので横スクロールが出ない */
+  container-type: inline-size;
+  flex: 1;
+  padding: var(--gap-l) 0;
+}
+
+.inner {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
+@media screen and (width >= 480px) {
+  :root {
+    --gutter: 32px;
+  }
+}
+
+@media screen and (width >= 1024px) {
+  :root {
+    --gutter: 48px;
+  }
+}
+
+/* =========================
+  Layout（本文＋サイドバー）
+  サイドバーはウィジェットがある時だけ出力されるので、:has() で有無を見る
+========================= */
+.layout-main:has(+ .sidebar) {
+  margin-bottom: var(--gap-l);
+}
+
+/* サイドバーがある時は、本文を左端に寄せてヘッダー等とそろえる */
+.layout:has(> .sidebar) :is(.post-entry, .page-entry, .comments, .front-content) {
+  margin-inline: 0;
+}
+
+@media screen and (width >= 1024px) {
+  .layout:has(> .sidebar) {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) var(--sidebar-width);
+    gap: var(--gap-l);
+  }
+
+  .layout-main:has(+ .sidebar) {
+    /* 本文の列を幅広・全幅の基準にし、サイドバーにはみ出さないようにする */
+    container-type: inline-size;
+    margin-bottom: 0;
+  }
+
+  /* 本文の列が本文の行幅程度に収まるので、列いっぱいまで広げる */
+  .layout:has(> .sidebar) :is(.post-entry, .page-entry, .comments, .front-content) {
+    max-width: none;
+  }
+
+  /* 幅広も本文の列いっぱいまで（全幅は .alignfull の指定のまま 100cqi になる） */
+  .layout:has(> .sidebar) .entry-content .alignwide {
+    --alignwide-width: 100cqi;
+  }
+}
+
+/* =========================
+  WordPress utility classes
+========================= */
+
+.aligncenter {
+  display: block;
+  margin-inline: auto;
+}
+
+.alignleft {
+  float: left;
+  margin: 0.25em 1em 0.75em 0;
+}
+
+.alignright {
+  float: right;
+  margin: 0.25em 0 0.75em 1em;
+}
+
+/* 幅広。本文の行幅を越えて .inner のコンテンツ幅まで広げる */
+.entry-content .alignwide {
+  --alignwide-width: calc(min(var(--container-max), 100cqi) - var(--gutter) * 2);
+
+  width: var(--alignwide-width);
+  max-width: none;
+  margin-inline: calc(50% - var(--alignwide-width) / 2);
+}
+
+/* 全幅。.main（コンテナ）の幅＝画面の左右の端まで広げる */
+.entry-content .alignfull {
+  width: 100cqi;
+  max-width: none;
+  margin-inline: calc(50% - 50cqi);
+}
+
+/* lg 未満でサイドバーがある時は本文が左寄せで中心がずれるので、左端を基準に広げる */
+@media screen and (width < 1024px) {
+  .layout:has(> .sidebar) .entry-content .alignwide {
+    margin-inline: 0;
+  }
+
+  .layout:has(> .sidebar) .entry-content .alignfull {
+    margin-inline: calc(var(--gutter) * -1) 0;
+  }
+}
+
+.wp-caption {
+  max-width: 100%;
+  margin-bottom: var(--space-4);
+}
+
+.wp-caption img {
+  margin-bottom: var(--space-2);
+}
+
+.wp-caption-text {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* ギャラリー（html5 対応のため WordPress 既定の CSS は出力されない） */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(var(--gallery-columns, 1), minmax(0, 1fr));
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.gallery-columns-2 {
+  --gallery-columns: 2;
+}
+
+.gallery-columns-3 {
+  --gallery-columns: 3;
+}
+
+.gallery-columns-4 {
+  --gallery-columns: 4;
+}
+
+.gallery-columns-5 {
+  --gallery-columns: 5;
+}
+
+.gallery-columns-6 {
+  --gallery-columns: 6;
+}
+
+.gallery-columns-7 {
+  --gallery-columns: 7;
+}
+
+.gallery-columns-8 {
+  --gallery-columns: 8;
+}
+
+.gallery-columns-9 {
+  --gallery-columns: 9;
+}
+
+.gallery-icon img {
+  width: 100%;
+}
+
+.gallery-icon:has(+ .gallery-caption) {
+  margin-bottom: var(--space-2);
+}
+
+/* 狭い列でも読みやすいよう行間を詰める */
+.gallery-caption {
+  line-height: 1.5;
+}
+
+.screen-reader-text {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(50%);
+}
+
+/* スキップリンク用。フォーカスした時だけ左上に表示する */
+.screen-reader-text:focus {
+  display: block;
+  z-index: 100000;
+  top: var(--space-2);
+  left: var(--space-2);
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: var(--space-3) var(--space-4);
+  overflow: visible;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  text-decoration: none;
+  white-space: normal;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  clip-path: none;
+}
+
+/* =========================
+  Button（汎用ボタン）
+  ボタンブロックの Line スタイルと同じ見た目にする。
+  テーマが .button を付けるもの（404・コメント送信・パスワード保護）のほか、
+  プラグインなどのフォームの送信ボタンにも当てる（アイコンだけの検索ボタンは除く）
+========================= */
+.button,
+:where(form button:not([type]), button[type="submit"]:not(.search-form-submit), input:is([type="submit"], [type="reset"])) {
+  display: inline-block;
+  padding: var(--space-2) var(--space-6);
+  font-family: inherit;
+  font-size: var(--text-base);
+  line-height: 1.8;
+  letter-spacing: var(--letter-spacing-wide);
+  text-align: center;
+  text-decoration: none;
+  color: var(--color-text);
+  background: transparent;
+  border: 1px solid currentcolor;
+  border-radius: 0;
+  cursor: pointer;
+  transition: color var(--transition-duration), background var(--transition-duration), border-color var(--transition-duration);
+}
+
+.button:focus-visible,
+:where(form button:not([type]), button[type="submit"]:not(.search-form-submit), input:is([type="submit"], [type="reset"])):focus-visible {
+  color: var(--color-text-inverse);
+  background: var(--color-bg-inverse);
+  border-color: var(--color-bg-inverse);
+}
+
+@media (hover: hover) {
+  .button:hover,
+  :where(form button:not([type]), button[type="submit"]:not(.search-form-submit), input:is([type="submit"], [type="reset"])):hover {
+    color: var(--color-text-inverse);
+    background: var(--color-bg-inverse);
+    border-color: var(--color-bg-inverse);
+  }
+}
+
+/* =========================
+  Form parts（入力欄・select）
+  テーマのテンプレートだけでなく、ブロックやプラグインのフォームにも同じ見た目を当てる。
+  :where() で詳細度 0 にし、部品ごとの指定（幅・高さなど）で上書きできるようにする
+========================= */
+:where(input:not([type="submit"], [type="button"], [type="reset"], [type="checkbox"], [type="radio"], [type="file"], [type="range"], [type="color"]), textarea, select) {
+  max-width: 100%;
+
+  /* select は行の高さの扱いがブラウザごとに違うので、入力欄とそろうよう高さを決める */
+  height: var(--control-height);
+  padding: var(--space-2) var(--space-3);
+  font-family: inherit;
+  font-size: var(--text-base);
+  line-height: 1.5;
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border-input);
+  border-radius: 0;
+  transition: border-color var(--transition-duration);
+}
+
+:where(input:not([type="submit"], [type="button"], [type="reset"], [type="checkbox"], [type="radio"], [type="file"], [type="range"], [type="color"]), textarea, select)::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* 複数行なので、高さは中身と min-height に任せる */
+:where(textarea) {
+  height: auto;
+}
+
+/* 標準の矢印は OS ごとに形も位置も違うので、テーマの山形（フッターのページ先頭へ戻るボタンと同じ）に差し替える */
+:where(select) {
+  padding-right: calc(var(--space-3) * 2 + 1em);
+  appearance: none;
+  background-image: var(--icon-chevron-down);
+  background-position: right var(--space-3) center;
+  background-size: 1em auto;
+  background-repeat: no-repeat;
+}
+
+/* フォーカスは枠を文字色まで濃くする */
+:where(input:not([type="submit"], [type="button"], [type="reset"], [type="checkbox"], [type="radio"], [type="file"], [type="range"], [type="color"]), textarea, select):focus {
+  border-color: var(--color-text);
+}
+
+/* 輪郭線は枠に重ねて、隙間も二重線も作らない */
+:where(input:not([type="submit"], [type="button"], [type="reset"], [type="checkbox"], [type="radio"], [type="file"], [type="range"], [type="color"]), textarea, select):focus-visible {
+  outline-offset: -1px;
+}
+
+/* =========================
+  Search Form
+========================= */
+.search-form {
+  display: flex;
+  align-items: stretch;
+}
+
+/* 見た目は上のフォームパーツ。虫眼鏡のボタンと1つの箱に見せるため、右の線だけ消す */
+.search-form-input {
+  width: 100%;
+  border-right: none;
+}
+
+/* ブラウザ標準のクリアボタンは閉じるボタンと紛らわしいので出さない */
+.search-form-input::-webkit-search-cancel-button {
+  appearance: none;
+}
+
+/* 印は下のフォーム全体に出すので入力欄には出さない。outline は透明で残し、強制カラーモードでは輪郭が出るようにする */
+.search-form-input:focus {
+  outline: 2px solid transparent;
+  outline-offset: -1px;
+}
+
+.search-form-submit {
+  display: flex;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  padding: var(--space-2);
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border-input);
+  border-left: none;
+  cursor: pointer;
+  transition: background var(--transition-duration), border-color var(--transition-duration);
+}
+
+/* ほかの押せるものと同じく、ホバー・フォーカスで反転する */
+@media (hover: hover) {
+  .search-form-submit:hover {
+    color: var(--color-text-inverse);
+    background: var(--color-bg-inverse);
+    border-color: var(--color-bg-inverse);
+  }
+}
+
+/* ホバーと同じく反転し、暗くなった面の上でも見えるよう輪郭線は白にして内側に描く */
+.search-form-submit:focus-visible {
+  color: var(--color-text-inverse);
+  background: var(--color-bg-inverse);
+  border-color: var(--color-bg-inverse);
+  outline: 2px solid var(--color-text-inverse);
+  outline-offset: -2px;
+}
+
+/* 下線はフォーカス時の印に使うので、普段は透明にして高さを確保しておく */
+.header-search .search-form {
+  background: var(--color-bg);
+  border-bottom: 2px solid transparent;
+  transition: border-color var(--transition-duration);
+}
+
+/* 右は虫眼鏡のボタン自体に余白があるので詰める */
+.header-search .search-form-input {
+  min-height: 3.75rem;
+  padding: 0 var(--space-2) 0 var(--space-6);
+  border: 0;
+}
+
+.header-search .search-form-submit {
+  width: 3.75rem;
+  border: 0;
+}
+
+/* 片方だけだと枠が途切れて見えるので、入力欄と送信ボタンをまとめて濃くする */
+.search-form:focus-within .search-form-input,
+.search-form:focus-within .search-form-submit {
+  border-color: var(--color-text);
+}
+
+/* 入力欄と虫眼鏡のボタンで1つの箱なので、輪郭線は箱全体に出す（ほかの入力欄と同じく枠に重ねる） */
+.search-form:has(.search-form-input:focus-visible) {
+  outline: 2px solid var(--color-text);
+  outline-offset: -1px;
+}
+
+/* モーダル内は枠を付けないので、フォームの下の線でフォーカスを示す */
+.header-search .search-form:focus-within {
+  border-bottom-color: var(--color-text);
+}
+
+.header-search .search-form:has(.search-form-input:focus-visible) {
+  outline: none;
+}
+
+/* =========================
+  Header
+========================= */
+
+/* 背景はメニューの開閉ボタンと同じ薄い背景にする */
+.header-top {
+  background: var(--color-bg-subtle);
+}
+
+/* margin を上書きすると .inner の中央寄せが消えるので指定しない */
+.header-top-text {
+  padding-block: var(--space-1);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* z-index は、ドロップダウン・SP メニューのパネル・暗幕を本文より前面に出すため */
+.header {
+  position: relative;
+  z-index: 3;
+  padding: var(--space-2) 0;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.header-ttl {
+  margin: 0;
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+/* インラインのままだと行ボックスのぶん下に余白が出るのでブロックにする */
+.custom-logo-link {
+  display: block;
+  width: fit-content;
+}
+
+.custom-logo {
+  width: auto;
+  max-height: 2.25rem;
+}
+
+.header-ttl-link {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.header-ttl-link:focus-visible {
+  text-decoration: underline;
+}
+
+@media (hover: hover) {
+  .header-ttl-link:hover {
+    text-decoration: underline;
+  }
+}
+
+.header-inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* アイコンボタンを常に同じ行の右端に保つため、折り返しの判定から外す */
+.header-branding {
+  flex: 1;
+  min-width: 0;
+}
+
+.header-nav-list {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  list-style: none;
+}
+
+/* 子を持つ項目はリンクと開閉ボタンを横に並べ、子メニューは下の行に回す */
+.header-nav-list > .header-nav-item {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* クラスは functions.php の nav_menu_link_attributes で付与。文字の頭をサイト名に合わせる */
+.header-nav-link {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: var(--space-4) var(--gutter);
+  font-size: var(--text-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+/* functions.php の nav_menu_item_title で包んだ文字。下線の基準にする */
+.header-nav-text {
+  display: inline-block;
+  position: relative;
+}
+
+/* 普段は右端から切り取って隠し、ホバー・フォーカスで左から伸ばす */
+.header-nav-text::before {
+  position: absolute;
+  right: 0;
+  bottom: calc(var(--space-1) * -1);
+  left: 0;
+  height: 1px;
+  background: currentcolor;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path var(--transition-duration);
+  content: "";
+}
+
+.header-nav-link:focus-visible .header-nav-text::before {
+  clip-path: inset(0);
+}
+
+@media (hover: hover) {
+  .header-nav-link:hover .header-nav-text::before {
+    clip-path: inset(0);
+  }
+}
+
+/* md 未満はアコーディオン */
+.header-nav-sublist {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-left: 0;
+  list-style: none;
+}
+
+/* 子の区切り線は点線にし、実線の親の線と区別する */
+.header-nav-sublist > .header-nav-item {
+  border-top: 1px dotted var(--color-border);
+}
+
+.header-nav-sublist .header-nav-link {
+  padding: var(--space-3) var(--gutter) var(--space-3) calc(var(--gutter) + var(--space-4));
+}
+
+/* 子メニューの開閉ボタン（md 未満）。functions.php が hidden で出力し、header.js が表示する */
+.js .header-nav-sub-toggle {
+  display: block;
+  position: relative;
+  flex-shrink: 0;
+  width: 2.75rem;
+  color: var(--color-text);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* 印はボタンの内側に描く（パネルの端で切れないように） */
+.header-nav-sub-toggle:focus-visible {
+  outline-offset: -2px;
+}
+
+/* 山形。開閉の前後で transform の並びを揃え、途中が回転にならないようにする */
+.header-nav-sub-toggle::before {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-right: 1px solid currentcolor;
+  border-bottom: 1px solid currentcolor;
+  transform: translate(-50%, -85%) rotateX(0deg) rotate(45deg);
+  transition: transform var(--transition-duration);
+  content: "";
+}
+
+.header-nav-sub-toggle[aria-expanded="true"]::before {
+  transform: translate(-50%, -15%) rotateX(180deg) rotate(45deg);
+}
+
+/* =========================
+  Header icon buttons（検索・メニュー）
+========================= */
+
+/* サイト名が長くてもボタンの幅を削らせない */
+.header-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--space-2);
+}
+
+/* JS が動く時だけ使うので .js で出す（描画の最初から出し、後からレイアウトがずれないように） */
+.js .header-action {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: calc(var(--space-1) / 2);
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0 var(--space-1);
+  font-size: var(--text-2xs);
+  line-height: 1;
+  color: var(--color-text);
+  background: none;
+  border: 0;
+  cursor: pointer;
+  transition: background var(--transition-duration);
+}
+
+@media (hover: hover) {
+  .header-action:hover {
+    background: var(--color-bg-subtle);
+  }
+}
+
+.header-action-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.header-action-label {
+  margin-bottom: calc(var(--space-1) / 2);
+}
+
+/* メニューだけ背景を敷き、開閉の起点であることを示す */
+.js .header-nav-toggle {
+  background: var(--color-bg-subtle);
+}
+
+@media (hover: hover) {
+  .header-nav-toggle:hover {
+    background: var(--color-bg-muted);
+  }
+}
+
+/* ラベルが4文字あるメニューだけ字間を詰め、ボタン幅をタップ領域に収める */
+.header-nav-toggle .header-action-label {
+  letter-spacing: -0.1em;
+}
+
+/* ハンバーガーアイコン。線は擬似要素で、span は線の間隔を決める箱 */
+.header-nav-toggle-icon {
+  display: block;
+  position: relative;
+  width: 1.125rem;
+  height: 0.4375rem;
+}
+
+.header-nav-toggle-icon::before,
+.header-nav-toggle-icon::after {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: currentcolor;
+  transition: top var(--transition-duration), transform var(--transition-duration);
+  content: "";
+}
+
+.header-nav-toggle-icon::before {
+  top: 0;
+}
+
+.header-nav-toggle-icon::after {
+  top: 100%;
+}
+
+.header-nav-toggle[aria-expanded="true"] .header-nav-toggle-icon::before,
+.header-nav-toggle[aria-expanded="true"] .header-nav-toggle-icon::after {
+  top: 50%;
+}
+
+.header-nav-toggle[aria-expanded="true"] .header-nav-toggle-icon::before {
+  transform: rotate(45deg);
+}
+
+.header-nav-toggle[aria-expanded="true"] .header-nav-toggle-icon::after {
+  transform: rotate(-45deg);
+}
+
+/* =========================
+  Header panels（検索・メニュー）
+========================= */
+
+/* 検索のモーダル。JS 無効時はヘッダーの下にフォームが並ぶ */
+.header-search {
+  padding: var(--space-4) var(--gutter);
+}
+
+/* .js は描画前に付くので、header.js を待つ間にフォームが一瞬見えることはない */
+.js .header-search {
+  display: flex;
+  visibility: hidden;
+  position: fixed;
+  z-index: 10;
+  inset: 0;
+
+  /* ヘッダーの高さに左右されず、画面の中央に置く */
+  justify-content: center;
+  align-items: center;
+  background: var(--color-overlay);
+  opacity: 0;
+  transition: opacity var(--transition-duration), visibility var(--transition-duration);
+}
+
+/* 開く時は visibility を即座に切り替える（hidden のままだと header.js のフォーカスが効かない） */
+body:has(.header-search-toggle[aria-expanded="true"]) .header-search {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity var(--transition-duration), visibility 0s;
+}
+
+.header-search-inner {
+  position: relative;
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
+}
+
+/* 閉じるボタン。フォームのすぐ上の右端に置く */
+.js .header-search-close {
+  display: flex;
+  position: absolute;
+  right: 0;
+  bottom: 100%;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: 0 var(--space-1);
+  font-size: var(--text-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-inverse);
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* 暗幕の上なので白い線にし、すぐ下の白いフォームにかからないようボタンの内側に描く */
+.header-search-close:focus-visible {
+  outline: 2px solid var(--color-text-inverse);
+  outline-offset: -2px;
+}
+
+body.is-header-open {
+  overflow: hidden;
+}
+
+/* =========================
+  Header（Responsive）
+========================= */
+@media screen and (width >= 768px) {
+  /* 下はナビのリンク自身の余白があるので、ヘッダー側には付けない */
+  .header {
+    padding: var(--space-4) 0 0;
+  }
+
+  .custom-logo {
+    max-height: 3rem;
+  }
+
+  /* 項目が少ない案件でも間延びしないよう、横幅いっぱいには広げず中央にまとめる */
+  .header-nav-list {
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: var(--space-1) var(--space-8);
+  }
+
+  /* min-height はタップ領域の確保が目的なので、md 以上では外す */
+  .header-nav-link {
+    min-height: 0;
+    padding: var(--space-2) 0;
+    white-space: nowrap;
+  }
+
+  /* 最上位の項目はヘッダーの下線の真上に線を引く。:where() は詳細度を子メニューのリンクと揃えるため */
+  .header-nav-list > :where(.header-nav-item) > .header-nav-link {
+    position: relative;
+    padding-bottom: var(--space-4);
+  }
+
+  .header-nav-list > .header-nav-item > .header-nav-link .header-nav-text::before {
+    display: none;
+  }
+
+  .header-nav-list > .header-nav-item > .header-nav-link::before {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: var(--color-border);
+    clip-path: inset(0 100% 0 0);
+    transition: clip-path var(--transition-duration);
+    content: "";
+  }
+
+  .header-nav-list > :is(.current-menu-item, .current-menu-ancestor) > .header-nav-link::before,
+  .header-nav-list > .header-nav-item > .header-nav-link:focus-visible::before {
+    clip-path: inset(0);
+  }
+
+  /* 最上位の項目はドロップダウンの位置の基準にする */
+  .header-nav-list > .header-nav-item {
+    position: relative;
+    align-items: center;
+    border-bottom: 0;
+  }
+
+  .header-nav-sublist > .header-nav-item {
+    border-top: 0;
+  }
+
+  /* 上端をヘッダーの下線に重ね、親からマウスを動かす途中で閉じないようにする */
+  .header-nav-sublist {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 0;
+    width: max-content;
+    min-width: 12rem;
+    max-width: 20rem;
+    max-height: calc(100svh - 12rem);
+    padding: var(--space-2) 0;
+    overflow-y: auto;
+
+    /* 中の端までスクロールしても背面へ伝えない */
+    overscroll-behavior: contain;
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    opacity: 0;
+    transition: opacity var(--transition-duration), visibility var(--transition-duration);
+  }
+
+  /* 画面の右にはみ出す時だけ右端をそろえる（クラスは header.js が付与） */
+  .header-nav-sublist.is-align-right {
+    right: 0;
+    left: auto;
+  }
+
+  .header-nav-sublist .header-nav-link {
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-xs);
+    letter-spacing: var(--letter-spacing-wide);
+    white-space: normal;
+  }
+
+  /* ドロップダウンは中をスクロールさせる（overflow）ので、はみ出すと切れる印を項目の内側に描く */
+  .header-nav-sublist .header-nav-link:focus-visible {
+    outline-offset: -2px;
+  }
+
+  /* 最上位の項目の印は、真下に開くドロップダウンより前面に出して下の辺を隠させない
+     （内側に描くと、下端の太めの線に塗りつぶされる） */
+  .header-nav-list > .header-nav-item > .header-nav-link:focus-visible {
+    z-index: 2;
+  }
+
+  .js .header-nav-sub-toggle {
+    display: none;
+  }
+
+  /* キーボードのフォーカスが中にある間も開く。:focus-within だとクリックでもフォーカスが残って開いたままになるので :focus-visible で判定する */
+  .header-nav-item:has(:focus-visible) > .header-nav-sublist {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  /* 1行目にサイト名と検索ボタン、2行目にナビを置く */
+  .header-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    row-gap: var(--space-2);
+  }
+
+  .header-nav {
+    grid-row: 2;
+    grid-column: 1 / -1;
+  }
+
+  .header-actions {
+    grid-row: 1;
+    grid-column: 2;
+  }
+
+  .js .header-nav-toggle {
+    display: none;
+  }
+}
+
+@media screen and (width >= 768px) and (hover: hover) {
+  .header-nav-list > .header-nav-item > .header-nav-link:hover::before {
+    clip-path: inset(0);
+  }
+
+  /* ホバーで開く（タッチ端末は下の開閉ボタンで開く。sticky なホバーで閉じられなくなるため） */
+  .header-nav-item:hover > .header-nav-sublist {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  /* マウスの乗っている項目のドロップダウンだけを出す（2つ重ならないように） */
+  .header-nav-list:hover > .header-nav-item:not(:hover) > .header-nav-sublist {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+/* タッチ端末（ホバーできない）は、md 以上でも親の項目の横の開閉ボタンで開く */
+@media screen and (width >= 768px) and (hover: none) {
+  .js .header-nav-sub-toggle {
+    display: block;
+    align-self: stretch;
+  }
+
+  .js .header-nav-sub-toggle[aria-expanded="true"] + .header-nav-sublist {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  /* JS 無効時は開閉ボタンが使えないので、タップで付くホバーで開く */
+  html:not(.js) .header-nav-item:hover > .header-nav-sublist {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+/* Esc で閉じたドロップダウンは、マウスやフォーカスが離れるまで隠す（クラスは header.js が付与） */
+@media screen and (width >= 768px) {
+  .header-nav-item.is-dismissed > .header-nav-sublist {
+    visibility: hidden;
+    opacity: 0;
+  }
+}
+
+@media screen and (width < 768px) {
+  .header-nav {
+    width: calc(100% + var(--gutter) * 2);
+    margin-inline: calc(var(--gutter) * -1);
+    padding-bottom: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* JS が動く時は、画面の右からスライドインするパネルにする（JS 無効時はヘッダー内に並ぶ） */
+  .js .header-nav {
+    visibility: hidden;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(calc(100% - var(--space-12)), 24rem);
+    margin: 0;
+    padding: calc(2.75rem + var(--space-2) * 2) var(--gutter) var(--space-8);
+    overflow-y: auto;
+
+    /* 端までスクロールしても背面へ伝えない */
+    overscroll-behavior: contain;
+    background: var(--color-bg);
+    border-top: 0;
+    cursor: auto;
+    transform: translateX(100%);
+    transition: transform var(--transition-duration), visibility var(--transition-duration);
+  }
+
+  .js body.is-nav-open .header-nav {
+    visibility: visible;
+    transform: none;
+  }
+
+  /* 背面の暗幕。クリックすると閉じる（header.js） */
+  .js .header::before {
+    visibility: hidden;
+    position: fixed;
+    z-index: 1;
+    inset: 0;
+    background: var(--color-overlay);
+    opacity: 0;
+    transition: opacity var(--transition-duration), visibility var(--transition-duration);
+    content: "";
+  }
+
+  .js body.is-nav-open .header::before {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  /* iOS Safari は cursor: pointer の無い要素へのタップでクリックを届けないので、暗幕を受けるヘッダーに付ける */
+  .js body.is-nav-open .header {
+    cursor: pointer;
+  }
+
+  /* サイト説明の帯やスクロールの量に関わらず、パネルの上端の行に置く */
+  .js body.is-nav-open .header-nav-toggle {
+    position: fixed;
+    z-index: 3;
+    top: var(--space-2);
+    right: var(--gutter);
+  }
+
+  /* 管理バーの高さは WordPress が :root に持たせている値を使う */
+  .js body.admin-bar .header-nav {
+    top: var(--wp-admin--admin-bar--height, 46px);
+  }
+
+  .js body.admin-bar.is-nav-open .header-nav-toggle {
+    top: calc(var(--wp-admin--admin-bar--height, 46px) + var(--space-2));
+  }
+
+  .js .header-nav-link {
+    padding-inline: var(--space-2) 0;
+  }
+
+  .js .header-nav-sublist .header-nav-link {
+    padding-inline: calc(var(--space-2) + var(--space-4)) 0;
+  }
+
+  /* md 以上は子メニューをドロップダウンにするので、md 未満に限定する */
+  .js .header-nav-sub-toggle:not([aria-expanded="true"]) + .header-nav-sublist {
+    display: none;
+  }
+}
+
+/* =========================
+  Breadcrumb
+========================= */
+
+/* ヘッダーとの間は「要素の間」、本文との間は「まとまりの間」にして、パンくずをヘッダー側に寄せる
+   （本文の頭は、パンくずの無いページで .main の上に空く量と同じになる） */
+.breadcrumb {
+  padding-top: var(--gap-m);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.breadcrumb + .main {
+  padding-top: var(--gap-l);
+}
+
+.breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  row-gap: var(--space-1);
+  list-style: none;
+}
+
+/* サイドバーが無い投稿・固定ページ（本文の列だけの時）は、中央に置いた本文と左端をそろえる */
+.breadcrumb:has(+ .main .layout-main:only-child > :is(.post-entry, .page-entry)) .breadcrumb-list {
+  max-width: calc(var(--container-reading) + var(--gutter) * 2);
+}
+
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+/* 区切りの斜線。文字ではなく線で描き、読み上げに含めない */
+.breadcrumb-item + .breadcrumb-item::before {
+  flex-shrink: 0;
+  width: 1px;
+  height: 0.875em;
+  margin-inline: var(--space-3);
+  background: currentcolor;
+  transform: rotate(20deg);
+  content: "";
+}
+
+.breadcrumb-link {
+  text-decoration: none;
+  color: inherit;
+  background: linear-gradient(currentcolor, currentcolor) 0 100% / 0 var(--underline-thickness) no-repeat;
+  transition: background-size var(--transition-duration);
+}
+
+.breadcrumb-link:focus-visible {
+  background-size: 100% var(--underline-thickness);
+}
+
+@media (hover: hover) {
+  .breadcrumb-link:hover {
+    background-size: 100% var(--underline-thickness);
+  }
+}
+
+/* =========================
+  Archive header
+========================= */
+
+/* 下に線は引かない（一覧の線は各記事の下だけに引く） */
+.archive-header {
+  margin-bottom: var(--gap-m);
+}
+
+/* 見出しはラベルなので、記事のタイトルより一段下げる */
+.archive-title {
+  font-size: var(--text-2xl);
+  line-height: 1.3;
+}
+
+/* 検索結果の件数は、検索語の最後の行のベースラインにそろえる */
+.archive-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: last baseline;
+  gap: var(--space-1) var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+/* 文字の見た目は「Read more」と同じ（Label セクション） */
+.archive-label {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+/* 下に説明文や検索フォームが続かない時は、ヘッダーの margin-bottom に任せる */
+.archive-heading:last-child {
+  margin-bottom: 0;
+}
+
+.archive-name {
+  display: block;
+}
+
+/* 検索結果の検索フォームは、404 と同じく入力しやすい幅に絞る */
+.archive-search {
+  max-width: 35rem;
+}
+
+.archive-count {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.archive-description {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.archive-description > *:last-child {
+  margin-bottom: 0;
+}
+
+/* =========================
+  Posts list
+========================= */
+
+.posts {
+  display: grid;
+}
+
+.posts:has(+ .navigation) {
+  margin-bottom: var(--gap-m);
+}
+
+/* 枠で囲まず、各記事の下（最後の記事も含む）に区切り線を引く */
+.post-item {
+  display: grid;
+  gap: var(--space-3);
+  padding: var(--gap-m) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.post-item:first-child {
+  padding-top: 0;
+}
+
+.post-item-thumbnail {
+  display: block;
+}
+
+/* 縦に積む時は空の枠が全幅になって目立つので出さない */
+.post-item-thumbnail:has(> .post-item-thumbnail-placeholder) {
+  display: none;
+}
+
+@media screen and (width >= 480px) {
+  .post-item {
+    align-items: start;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+
+  .post-item-thumbnail:has(> .post-item-thumbnail-placeholder) {
+    display: block;
+  }
+}
+
+@media screen and (width >= 768px) {
+  .post-item {
+    gap: var(--gap-m);
+  }
+}
+
+.post-item-thumbnail img {
+  aspect-ratio: 3 / 2;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* アイキャッチが無い時も同じ大きさの枠を出し、文字の左端をそろえる */
+.post-item-thumbnail-placeholder {
+  display: block;
+  aspect-ratio: 3 / 2;
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+}
+
+.post-item-header {
+  margin-bottom: var(--space-3);
+}
+
+.post-item-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-3);
+  margin-bottom: var(--space-2);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+.sticky .post-item-sticky-label {
+  padding: 0 var(--space-2);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text);
+  border: 1px solid currentcolor;
+}
+
+.post-item-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.post-item-date + .post-item-categories {
+  padding-left: var(--space-3);
+  border-left: 1px solid var(--color-border);
+}
+
+.post-item-title {
+  font-size: var(--text-base);
+  line-height: 1.4;
+}
+
+@media screen and (width >= 768px) {
+  .post-item-title {
+    font-size: var(--text-lg);
+  }
+}
+
+/* 折り返したタイトルでも線が続くよう、下線は背景で描く */
+.post-item-title a,
+.post-item-categories a {
+  text-decoration: none;
+  color: inherit;
+  background: linear-gradient(currentcolor, currentcolor) 0 100% / 0 var(--underline-thickness) no-repeat;
+  transition: color var(--transition-duration), background-size var(--transition-duration);
+}
+
+.post-item-title a:focus-visible,
+.post-item-categories a:focus-visible {
+  background-size: 100% var(--underline-thickness);
+}
+
+/* カテゴリーは押せることが分かるよう、文字色まで濃くする */
+.post-item-categories a:focus-visible {
+  color: var(--color-text);
+}
+
+/* 画像に乗った時も、リンク先が分かるようタイトルに下線を出す */
+@media (hover: hover) {
+  .post-item-categories a:hover {
+    color: var(--color-text);
+  }
+
+  .post-item-title a:hover,
+  .post-item-categories a:hover,
+  .post-item:has(.post-item-thumbnail:hover) .post-item-title a {
+    background-size: 100% var(--underline-thickness);
+  }
+}
+
+.post-item-excerpt {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.post-item-excerpt > *:last-child {
+  margin-bottom: 0;
+}
+
+/* 抜粋は文字数ではなく行数で切る */
+.post-item-excerpt > p {
+  display: -webkit-box;
+  overflow: hidden;
+
+  /* 行数で切る指定は接頭辞付きのみ全ブラウザで動く */
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+/* sm 以上 md 未満は画像が低いので、2行にして画像の高さにそろえる */
+@media screen and (480px <= width < 768px) {
+  .post-item-excerpt > p {
+    -webkit-line-clamp: 2;
+  }
+}
+
+.post-item-more {
+  margin: 0;
+}
+
+/* ほかのリンクと同じく、ホバー・フォーカスで下線を左から伸ばす */
+.post-item-more-link {
+  display: inline-block;
+  padding-bottom: var(--space-1);
+  text-decoration: none;
+  color: var(--color-text);
+  background: linear-gradient(currentcolor, currentcolor) left 0 bottom 0 / 0 var(--underline-thickness) no-repeat;
+  transition: background-size var(--transition-duration);
+}
+
+.post-item-more-link:focus-visible {
+  background-size: 100% var(--underline-thickness);
+}
+
+@media (hover: hover) {
+  .post-item-more-link:hover {
+    background-size: 100% var(--underline-thickness);
+  }
+}
+
+/* =========================
+  Pagination (wp_link_pages)
+========================= */
+
+.page-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  padding-top: var(--space-3);
+  font-size: var(--text-xs);
+  border-top: 1px solid var(--color-border);
+}
+
+/* 記事詳細の「Tags:」と同じ補足色の小さな文字 */
+.page-links-title {
+  font-size: var(--text-xs);
+  letter-spacing: var(--letter-spacing-wide);
+  color: var(--color-text-muted);
+}
+
+/* 見た目は記事一覧のページ送りと同じ。線は content-box に描いて数字の幅に合わせ、押せる範囲は padding で広げる */
+.page-links .post-page-numbers {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  line-height: 1.5;
+  text-decoration: none;
+  color: var(--color-text);
+  background: linear-gradient(currentcolor, currentcolor) 0 100% / 0 var(--underline-thickness) no-repeat content-box;
+  transition: background-size var(--transition-duration);
+}
+
+.page-links .post-page-numbers.current {
+  background-size: 100% var(--underline-thickness);
+}
+
+.page-links a.post-page-numbers:focus-visible {
+  background-size: 100% var(--underline-thickness);
+}
+
+@media (hover: hover) {
+  .page-links a.post-page-numbers:hover {
+    background-size: 100% var(--underline-thickness);
+  }
+}
+
+/* =========================
+  Navigation（記事一覧・コメントのページ送り）
+========================= */
+.navigation {
+  margin-bottom: var(--space-8);
+}
+
+/* 一覧の最後に置く時は、本文の領域の下の余白に任せる（コメントのページ送りは後ろにフォームが続くので残す） */
+.navigation:last-child {
+  margin-bottom: 0;
+}
+
+.navigation .nav-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.navigation .nav-next {
+  margin-left: auto;
+}
+
+.navigation .nav-links a {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.pagination .nav-links {
+  justify-content: center;
+  gap: var(--space-2);
+}
+
+/* 線を数字の幅に合わせるため背景を content-box に描き、押せる範囲は padding で広げる */
+.pagination .nav-links .page-numbers {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--text-xs);
+  line-height: 1.5;
+  background: linear-gradient(currentcolor, currentcolor) 0 100% / 0 var(--underline-thickness) no-repeat content-box;
+  transition: background-size var(--transition-duration);
+}
+
+.pagination .nav-links .page-numbers.current {
+  background-size: 100% var(--underline-thickness);
+}
+
+.pagination .nav-links a.page-numbers:focus-visible {
+  background-size: 100% var(--underline-thickness);
+}
+
+@media (hover: hover) {
+  .pagination .nav-links a.page-numbers:hover {
+    background-size: 100% var(--underline-thickness);
+  }
+}
+
+/* =========================
+  No posts
+========================= */
+
+.no-posts-title {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-xl);
+  line-height: 1.4;
+}
+
+.no-posts-text {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+/* =========================
+  Sidebar（ウィジェット）
+========================= */
+.sidebar {
+  font-size: var(--text-xs);
+}
+
+.widget {
+  margin-bottom: var(--gap-m);
+}
+
+.widget:last-child {
+  margin-bottom: 0;
+}
+
+.sidebar .widget {
+  padding: var(--space-4);
+  border: 1px solid var(--color-border);
+}
+
+/* 日本語の見出しもあるので、英字だけのラベルより一段大きくする。最新記事のカードの見出しは外す。
+   トップページのエリアはパターンの見出しに効かせないよう、クラシックの見出しだけにする */
+.sidebar .widget-title,
+.sidebar .widget .wp-block-heading:not(.latest-card-title),
+.front-widgets .widget-title {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-xs);
+  font-weight: 400;
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+.widget ul {
+  padding: 0;
+  list-style: none;
+}
+
+/* 階層のあるリスト（カテゴリー・固定ページ・メニュー）は、子の項目を字下げして階層を示す */
+.widget ul ul {
+  padding-left: var(--space-4);
+}
+
+.widget li {
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* 最後の項目の線はカードの枠と重なるので消す（最新記事のカードは一覧へのリンクとの区切りに残す） */
+.widget li:last-child {
+  border-bottom: 0;
+}
+
+/* タグクラウドは、記事詳細のタグと同じ線の枠のラベルにする */
+.tagcloud,
+.wp-block-tag-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+}
+
+/* WordPress が記事数に応じてインラインで文字の大きさを付けるので、!important でそろえる */
+:is(.tagcloud, .wp-block-tag-cloud) .tag-cloud-link {
+  display: inline-block;
+  margin: 0;
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--text-xs) !important;
+  line-height: 1.5;
+  letter-spacing: var(--letter-spacing-wide);
+  text-decoration: none;
+  color: var(--color-text);
+  border: 1px solid currentcolor;
+  transition: color var(--transition-duration), background-color var(--transition-duration), border-color var(--transition-duration);
+}
+
+:is(.tagcloud, .wp-block-tag-cloud) .tag-cloud-link::before {
+  content: "#";
+}
+
+:is(.tagcloud, .wp-block-tag-cloud) .tag-cloud-link:focus-visible {
+  color: var(--color-text-inverse);
+  background-color: var(--color-bg-inverse);
+  border-color: var(--color-bg-inverse);
+}
+
+@media (hover: hover) {
+  :is(.tagcloud, .wp-block-tag-cloud) .tag-cloud-link:hover {
+    color: var(--color-text-inverse);
+    background-color: var(--color-bg-inverse);
+    border-color: var(--color-bg-inverse);
+  }
+}
+
+/* カレンダー（クラシックのウィジェットとブロック）。本文の表と同じく薄い線で区切る */
+.wp-calendar-table {
+  width: 100%;
+  margin-bottom: var(--space-2);
+  border-collapse: collapse;
+  text-align: center;
+}
+
+.wp-calendar-table caption {
+  margin-bottom: var(--space-2);
+  font-weight: 600;
+}
+
+.wp-calendar-table :is(th, td) {
+  padding: var(--space-1) 0;
+  border: 1px solid var(--color-border);
+}
+
+.wp-calendar-table th {
+  font-weight: 400;
+  color: var(--color-text-muted);
+  background: var(--color-bg-subtle);
+}
+
+/* 今日は太字にする（WordPress が id しか付けないので、ID セレクタを避けて属性で指定する） */
+.wp-calendar-table td[id="today"] {
+  font-weight: 700;
+}
+
+/* 投稿がある日はリンクになるので、下線で押せることを示す（:any-link はほかのリンクの指定と詳細度をそろえるため） */
+.wp-calendar-table a:any-link {
+  color: var(--color-text);
+}
+
+.wp-calendar-nav {
+  display: flex;
+  justify-content: space-between;
+}
+
+.wp-calendar-nav a:any-link {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+/* ドロップダウン表示（アーカイブ・カテゴリー）。見た目は common.css のフォームパーツで、カードの幅いっぱいに広げる */
+.widget select {
+  width: 100%;
+  font-size: var(--text-xs);
+}
+
+/* =========================
+  ウィジェットに置いたブロック（引用・表・コード・区切り線）
+  本文の CSS（content.css）は投稿・固定ページでしか読み込まないので、
+  ウィジェットエリアの分だけここに最小限を持つ（値は content.css と同じトークン）
+========================= */
+
+/* 引用は背景を敷かず、左の線だけで示す */
+:is(.sidebar, .front-widgets) blockquote {
+  margin-left: 0;
+  padding-left: var(--space-3);
+  color: var(--color-text-muted);
+  border-left: 1px solid var(--color-border);
+}
+
+:is(.sidebar, .front-widgets) blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+/* 出典。斜体は日本語が崩れるのでやめ、一段小さくする */
+:is(.sidebar, .front-widgets) blockquote cite {
+  display: block;
+  font-size: var(--text-2xs);
+  font-style: normal;
+}
+
+/* 表は幅が狭いので、はみ出す時は中だけを横スクロールさせる（カレンダーは別に指定済み） */
+:is(.sidebar, .front-widgets) .wp-block-table table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+}
+
+:is(.sidebar, .front-widgets) .wp-block-table :is(th, td) {
+  padding: var(--space-1) var(--space-2);
+  text-align: left;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+}
+
+:is(.sidebar, .front-widgets) .wp-block-table th {
+  background: var(--color-bg-subtle);
+}
+
+:is(.sidebar, .front-widgets) pre {
+  padding: var(--space-2) var(--space-3);
+  overflow-x: auto;
+  line-height: 1.5;
+  color: var(--color-text);
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+}
+
+:is(.sidebar, .front-widgets) code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+}
+
+:is(.sidebar, .front-widgets) :not(pre) > code {
+  padding: 0.15em 0.4em;
+  color: var(--color-text);
+  background: var(--color-bg-muted);
+}
+
+/* 区切り線も構造の薄い線にそろえる */
+:is(.sidebar, .front-widgets) hr {
+  margin: var(--space-3) 0;
+  border: 0;
+  border-top: 1px solid var(--color-border);
+}
+
+/* ブロックの「検索」のラベル（functions.php でテーマの検索フォームの上に出す）。ウィジェットの見出しと同じ見た目 */
+.search-block-label {
+  margin-bottom: var(--space-3);
+  font-size: var(--text-xs);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+/* =========================
+  パターン「Latest posts card」
+========================= */
+
+.latest-card {
+  padding: var(--space-6);
+  border: 1px solid var(--color-border);
+}
+
+/* ウィジェットの枠をそのまま使い、枠が二重にならないようにする */
+.sidebar .latest-card {
+  padding: 0;
+  border: 0;
+}
+
+/* 見出しの上のラベル。お問い合わせのパターンの .cta-label と同じ見た目 */
+.latest-card .latest-card-label {
+  margin-bottom: var(--space-2);
+  font-size: var(--text-xs);
+  letter-spacing: var(--letter-spacing-wider);
+  color: var(--color-text-muted);
+}
+
+.latest-card .latest-card-title {
+  margin-bottom: var(--space-4);
+  font-size: var(--text-lg);
+}
+
+.latest-card .wp-block-latest-posts {
+  margin: 0 0 var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.latest-card .wp-block-latest-posts li {
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* 最初の記事は上の余白を消し、見出しの下の余白に任せる */
+.latest-card .wp-block-latest-posts li:first-child {
+  padding-top: 0;
+}
+
+.latest-card .wp-block-latest-posts__featured-image {
+  margin-bottom: var(--space-3);
+}
+
+.latest-card .wp-block-latest-posts li:not(:first-child) .wp-block-latest-posts__featured-image {
+  display: none;
+}
+
+.latest-card .wp-block-latest-posts__featured-image img {
+  aspect-ratio: 3 / 2;
+  width: 100%;
+  object-fit: cover;
+}
+
+/* 下線（ホバー・フォーカス）が文字の幅で引かれるよう、タイトルはインラインのままにする（日付は WordPress が改行する） */
+.latest-card .wp-block-latest-posts__post-title {
+  font-size: var(--text-xs);
+}
+
+.latest-card .wp-block-latest-posts li:first-child .wp-block-latest-posts__post-title {
+  font-size: var(--text-xs);
+}
+
+.latest-card .wp-block-latest-posts__post-date {
+  display: block;
+  padding-top: var(--space-1);
+  font-size: var(--text-2xs);
+  color: var(--color-text-muted);
+}
+
+.latest-card .latest-card-more {
+  margin-bottom: 0;
+}
+
+/* =========================
+  Footer
+========================= */
+
+/* 背景は白との差が小さいので、上の線で本文との境目を示す */
+.footer {
+  padding: var(--gap-m) 0 var(--gap-l);
+  background: var(--color-bg-subtle);
+  border-top: 1px solid var(--color-border);
+}
+
+.footer-nav {
+  margin-bottom: var(--space-4);
+}
+
+.footer-nav-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 var(--space-8);
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-xs);
+  letter-spacing: var(--letter-spacing-wide);
+}
+
+.footer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  text-align: center;
+}
+
+.footer-copyright,
+.footer-privacy {
+  margin: 0;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+/* z-index はヘッダーより下にし、開いたパネルの上に出ないようにする */
+.page-top {
+  display: flex;
+  position: fixed;
+  z-index: 2;
+  right: var(--gutter);
+  bottom: var(--space-6);
+  justify-content: center;
+  align-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border: 1px solid currentcolor;
+  transition: color var(--transition-duration), background var(--transition-duration), border-color var(--transition-duration), opacity var(--transition-duration), visibility var(--transition-duration);
+}
+
+.page-top:focus-visible {
+  color: var(--color-text-inverse);
+  background: var(--color-bg-inverse);
+  border-color: var(--color-bg-inverse);
+}
+
+@media (hover: hover) {
+  .page-top:hover {
+    color: var(--color-text-inverse);
+    background: var(--color-bg-inverse);
+    border-color: var(--color-bg-inverse);
+  }
+}
+
+/* ヘッダーが画面から外れるまで隠す（page-top.js が .is-visible を付ける） */
+.js .page-top:not(.is-visible) {
+  visibility: hidden;
+  opacity: 0;
+}
+
+/* =========================
+  リンク（最新記事のカード・フッター・サイドバー）
+  no-descending-specificity を満たすため、通常 → フォーカス → ホバーの順にまとめて末尾に置く
+========================= */
+
+/* 見た目は一覧の「Read more」と同じ */
+.latest-card p.latest-card-more a:any-link {
+  display: inline-block;
+  padding-bottom: var(--space-1);
+  text-decoration: none;
+  color: var(--color-text);
+  background: linear-gradient(currentcolor, currentcolor) left 0 bottom 0 / 0 var(--underline-thickness) no-repeat;
+  transition: background-size var(--transition-duration);
+}
+
+.footer .footer-nav-list li a:any-link,
+.footer p.footer-privacy a:any-link {
+  text-decoration: none;
+  color: inherit;
+  background: linear-gradient(currentcolor, currentcolor) 0 100% / 0 var(--underline-thickness) no-repeat;
+  transition: background-size var(--transition-duration);
+}
+
+/* メニューは押せる範囲を上下の padding で広げ、線は content-box に描いて文字の下に引く */
+.footer .footer-nav-list li a:any-link {
+  display: inline-block;
+  padding-block: var(--space-2);
+  background: linear-gradient(currentcolor, currentcolor) 0 100% / 0 var(--underline-thickness) no-repeat content-box;
+}
+
+/* 画像のリンクは、画像の下に線が出ないよう外す */
+.sidebar .widget li a:any-link,
+.front-widgets .widget li a:any-link {
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.sidebar .widget li a:any-link:not(:has(img)),
+.front-widgets .widget li a:any-link:not(:has(img)) {
+  background: linear-gradient(currentcolor, currentcolor) 0 100% / 0 var(--underline-thickness) no-repeat;
+  transition: background-size var(--transition-duration);
+}
+
+.latest-card p.latest-card-more a:any-link:focus-visible {
+  background-size: 100% var(--underline-thickness);
+}
+
+.footer .footer-nav-list li a:any-link:focus-visible,
+.footer p.footer-privacy a:any-link:focus-visible,
+.sidebar .widget li a:any-link:not(:has(img)):focus-visible,
+.front-widgets .widget li a:any-link:not(:has(img)):focus-visible {
+  background-size: 100% var(--underline-thickness);
+}
+
+@media (hover: hover) {
+  .latest-card p.latest-card-more a:any-link:hover {
+    background-size: 100% var(--underline-thickness);
+  }
+
+  .footer .footer-nav-list li a:any-link:hover,
+  .footer p.footer-privacy a:any-link:hover,
+  .sidebar .widget li a:any-link:not(:has(img)):hover,
+  .front-widgets .widget li a:any-link:not(:has(img)):hover {
+    background-size: 100% var(--underline-thickness);
+  }
+}
+
+/* =========================
+  Label（小さな英字のラベル）
+  ページの種類・区分を示す、それ自体はリンクではない文字。大文字と字間で見出しと区別する。
+  配置（display・余白・色）は、それぞれのセクション・ファイルで足す
+========================= */
+.archive-label,
+.post-entry-nav-label,
+.error-404-label {
+  font-size: var(--text-2xs);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+}
+
+/* =========================
+  Small link（小さなリンク）
+  「Read more」「Reply」「Prev」「Next」など。ラベルと違い大文字にも字間を広げもせず、
+  ホバー・フォーカスで伸びる下線で示す。
+  no-descending-specificity のため、ほかの a の指定より後（ファイルの末尾）に置く
+========================= */
+/* stylelint-disable no-descending-specificity -- 詳細度の違う各所の見た目をまとめる指定なので、順序はそろえられない */
+.post-item-more-link,
+.pagination .nav-links .page-numbers:is(.prev, .next),
+.latest-card p.latest-card-more a:any-link,
+.reply .comment-reply-link,
+.comment-navigation .nav-links a {
+  font-size: var(--text-2xs);
+}
+/* stylelint-enable no-descending-specificity */
